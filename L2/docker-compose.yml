@@ -1,0 +1,54 @@
+version: '2'
+
+services:
+  influxdb:
+    image: influxdb:1.8.10
+    container_name: influxdb
+    ports:
+      - "8083:8083"
+      - "8086:8086"
+      - "8090:8090"
+      - "2003:2003"
+    env_file:
+      - 'env.influxdb'
+    volumes:
+      # sudo mkdir -p ./data/influxdb/data
+      - ./data/influxdb/data:/var/lib/influxdb
+
+  telegraf:
+    image: telegraf:latest
+    container_name: telegraf
+    links:
+      - influxdb
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    env_file:
+      - 'env.grafana'
+    links:
+      - influxdb
+    volumes:
+      # sudo mkdir -p ./data/grafana/data; chown 472:472 ./data/grafana/data
+      - ./data/grafana/data:/var/lib/grafana
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
+    container_name: elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    container_name: elasticsearch
+    volumes:
+      - ./data/elasticsearch/data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    restart: always
