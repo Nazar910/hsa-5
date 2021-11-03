@@ -12,7 +12,6 @@ services:
     env_file:
       - 'env.influxdb'
     volumes:
-      # sudo mkdir -p ./data/influxdb/data
       - ./data/influxdb/data:/var/lib/influxdb
 
   telegraf:
@@ -33,7 +32,7 @@ services:
     links:
       - influxdb
     volumes:
-      # sudo mkdir -p ./data/grafana/data; chown 472:472 ./data/grafana/data
+      # sudo chown 472:472 ./data/grafana/data
       - ./data/grafana/data:/var/lib/grafana
 
   elasticsearch:
@@ -42,6 +41,7 @@ services:
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
     container_name: elasticsearch
     volumes:
       - ./data/elasticsearch/data:/usr/share/elasticsearch/data
@@ -52,3 +52,5 @@ services:
     container_name: mongodb
     image: mongo:latest
     restart: always
+    ports:
+      - 27017:27017
