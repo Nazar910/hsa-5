@@ -3,7 +3,7 @@
 In the best scenaria you can just use:
 
 ```
-    $ docker-compose up -d
+    $ GID=$GID docker-compose up -d
 ```
 
 If you get Grafana exiting with code 1, check whether you have correct permissions.

@@ -17,10 +17,12 @@ services:
   telegraf:
     image: telegraf:latest
     container_name: telegraf
+    user: "telegraf:${GID}"
     links:
       - influxdb
     volumes:
       - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - /var/run/docker.sock:/var/run/docker.sock
 
   grafana:
     image: grafana/grafana:latest
