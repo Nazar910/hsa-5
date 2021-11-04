@@ -28,3 +28,9 @@ sudo chown 472:472 -R ./data/grafana
 
 * Set up InfluxDb data source
 * Import telegraf dashboard by link https://grafana.com/grafana/dashboards/61
+
+## Run benchmark
+
+```
+    $ ./run_ab.sh
+```
