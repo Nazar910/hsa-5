@@ -1,3 +1,13 @@
+## Quick overview
+
+In this case we have following infra:
+* influxdb - for storing our metrics
+* telegraf - for grabing our metrics
+* grafana - for charts
+* elasticsearch
+* mongodb
+* gateway - simple node.js server that accepts POST HTTP routes and sends queries to MongoDB and Elasticsearch
+
 ## Charts
 
 ![image](https://user-images.githubusercontent.com/19594637/140271211-7ad29111-16d6-4e0a-bd5d-dd869c8f933a.png)
