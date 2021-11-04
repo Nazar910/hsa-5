@@ -44,3 +44,9 @@ sudo chown 472:472 -R ./data/grafana
 ```
     $ ./run_ab.sh
 ```
+
+In case you're on Ubuntu and don't have `ab` installed, you can do it by:
+```
+    $ sudo apt-get update
+    $ sudo apt-get install apache2-utils
+```
