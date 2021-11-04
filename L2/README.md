@@ -1,3 +1,11 @@
+## Charts
+
+![image](https://user-images.githubusercontent.com/19594637/140271211-7ad29111-16d6-4e0a-bd5d-dd869c8f933a.png)
+On the Docker tab, we can see CPU, Memory, Networks metrics and etc. On this particular timeframe we see
+how much CPU and Memotry were used by our infra.
+* Moments of low consumption represent idle time
+* Moments of high consumption show us when our benchmark tool was launched
+
 ## Get containers running
 
 In the best scenaria you can just use:
