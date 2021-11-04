@@ -39,9 +39,11 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
     container_name: elasticsearch
     environment:
+      - node.name=hsa_elasticsearch
       - xpack.security.enabled=false
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+      - bootstrap.memory_lock=true
     container_name: elasticsearch
     volumes:
       - ./data/elasticsearch/data:/usr/share/elasticsearch/data
@@ -54,3 +56,10 @@ services:
     restart: always
     ports:
       - 27017:27017
+
+  gateway:
+    container_name: gateway
+    build: gateway
+    restart: always
+    ports:
+      - 8001:8001
