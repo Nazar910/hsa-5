@@ -1,0 +1,15 @@
+{
+  "name": "ga-currency-job",
+  "version": "1.0.0",
+  "description": "GA currency job that fetches ua/usd currency rate on start and send data to GA",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0"
+  }
+}
