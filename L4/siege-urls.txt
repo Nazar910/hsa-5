@@ -1,0 +1,20 @@
+http://localhost:8002/create-a POST name=foo1-a
+http://localhost:8002/create-a POST name=foo2-a
+http://localhost:8002/create-a POST name=foo3-a
+http://localhost:8002/create-a POST name=foo4-a
+http://localhost:8002/create-a POST name=foo5-a
+http://localhost:8002/create-b POST name=foo1-b
+http://localhost:8002/create-b POST name=foo2-b
+http://localhost:8002/create-b POST name=foo3-b
+http://localhost:8002/create-b POST name=foo4-b
+http://localhost:8002/create-b POST name=foo5-b
+http://localhost:8002/get-a/foo1-a
+http://localhost:8002/get-a/foo2-a
+http://localhost:8002/get-a/foo3-a
+http://localhost:8002/get-a/foo4-a
+http://localhost:8002/get-a/foo5-a
+http://localhost:8002/get-b/foo1-b
+http://localhost:8002/get-b/foo2-b
+http://localhost:8002/get-b/foo3-b
+http://localhost:8002/get-b/foo4-b
+http://localhost:8002/get-b/foo5-b
