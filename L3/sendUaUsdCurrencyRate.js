@@ -22,18 +22,9 @@ const trackEvent = (category, action, label, value) => {
         ea: action,
         // Event label.
         el: label,
-
-        // // page view example
-        // v: '1',
-        // tid: GA_TRACKING_ID,
-        // cid: 'currency-fetch-job',
-        // cm1: value,
-        // t: 'pageview',
-        // dp: '/currency-fetch',
-        // pr1pr: value
     };
 
-    console.log('data', JSON.stringify(data));
+    console.log('data to be sent to GA', JSON.stringify(data));
 
     return axios.get(GA_COLLECT_URL, {
         params: data,
