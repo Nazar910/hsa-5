@@ -31,6 +31,7 @@ Send
 
 ## Example data we can see in GA:
 ### Behaviour -> Events -> Overview
-![image](https://user-images.githubusercontent.com/19594637/140818540-db47279d-3258-49e9-acbb-5d6f9c1ef1af.png)
+![image](https://user-images.githubusercontent.com/19594637/140818979-628d7b81-3628-428a-b87e-260679a79e0d.png)
+
 ### Customer reports (you can use your custom metrics here)
 ![image](https://user-images.githubusercontent.com/19594637/140818656-3cf75c59-75f7-4e35-9d4e-1f91b59e11a4.png)
