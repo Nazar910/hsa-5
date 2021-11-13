@@ -13,10 +13,10 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "ioredis": "^4.28.0",
     "mongodb": "^4.1.4"
   },
   "devDependencies": {
-    "eslint": "^8.2.0",
-    "standart": "^6.1.0"
+    "eslint": "^8.2.0"
   }
 }

@@ -8,16 +8,13 @@ const { NotFound } = require('../errors');
 
 const MONGO_DB = 'test1';
 const COLLECTION_A = 'col_a';
-const COLLECTION_B = 'col_b';
 
-async function startServer(mongoClient) {
+async function startServer(mongoClient, redisClient) {
     assert.ok(mongoClient);
     const db = mongoClient.db(MONGO_DB);
-    const aSvc = new SvcTemplate(db.collection(COLLECTION_A));
-    const bSvc = new SvcTemplate(db.collection(COLLECTION_B));
+    const aSvc = new SvcTemplate(db.collection(COLLECTION_A), redisClient);
 
     const aController = new ControllerTemplate(aSvc);
-    const bController = new ControllerTemplate(bSvc);
 
     const app = express();
 
@@ -25,10 +22,7 @@ async function startServer(mongoClient) {
     app.use(express.urlencoded({ extended: false }));
     app.use(cors({ origin: '*' }));
 
-    app.get('/get-a/:name', aController.get.bind(aController));
-    app.get('/get-b/:name', bController.get.bind(bController));
-    app.post('/create-a', aController.create.bind(aController));
-    app.post('/create-b', bController.create.bind(bController));
+    app.get('/get/:name', aController.get.bind(aController));
 
     app.use((req, res, next) => {
         if (res.data == null) {

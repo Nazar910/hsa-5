@@ -8,10 +8,20 @@ services:
     ports:
       - 27017:27017
 
+  redis:
+    image: 'docker.io/bitnami/redis:6.0-debian-10'
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHALL
+    ports:
+      - '6379:6379'
+
   app:
     container_name: app
     build: app
     environment:
-      - MONGO_URI=mongodb://mongodb:27017
+      - MONGO_URL=mongodb://mongodb:27017
+      - REDIS_URL=redis:6379
     ports:
       - 8002:8002
