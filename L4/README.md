@@ -34,3 +34,19 @@ Start node app (used request straight to node app because kept getting a lot of 
 * `siege -c100 -t60s -i --file siege-urls.txt`
 
 ![image](https://user-images.githubusercontent.com/19594637/141653772-cb9e6db5-224f-4107-8fd0-a9b168d85015.png)
+
+* `siege -c150 -t60s -i --file siege-urls.txt`
+
+![image](https://user-images.githubusercontent.com/19594637/141653865-74e0e22d-93fa-4289-b3f8-161c9847ad21.png)
+
+* `siege -c200 -t60s -i --file siege-urls.txt`
+
+![image](https://user-images.githubusercontent.com/19594637/141653912-03d92d5a-e937-4112-a112-f234e152a6cf.png)
+
+* `siege -c250 -t60s -i --file siege-urls.txt`
+
+![image](https://user-images.githubusercontent.com/19594637/141653957-78d2ce36-5628-4330-a751-e6baeb13aaec.png)
+
+And my investigations stopped here because of siege limit to 255 concurrent user :)
+
+
