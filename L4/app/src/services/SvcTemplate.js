@@ -4,7 +4,7 @@ function getKeyName(name) {
     return `record_${name}`;
 }
 
-const REDIS_TTL_SEC = 25;
+const REDIS_TTL_SEC = 5;
 
 class SvcTemplate {
     constructor(collection, redisClient) {
@@ -14,25 +14,46 @@ class SvcTemplate {
         this.redisClient = redisClient;
     }
 
+    async reCompute(name) {
+        const startTime = Date.now();
+        const result = await this.collection.findOne({
+            name
+        });
+        const delta = Date.now() - startTime;
+
+        const cacheKeyName = getKeyName(name);
+        await this.redisClient.setex(cacheKeyName, REDIS_TTL_SEC, JSON.stringify({ data: result, delta }));
+
+        return result;
+    }
+
+    shouldRecompute(delta, beta, expiry) {
+        return Date.now() - delta * beta * Math.log(Math.random()) >= expiry;
+    }
+
     async get(name) {
         const { redisClient } = this;
 
         const cacheKeyName = getKeyName(name);
-        const ttl = await redisClient.ttl(cacheKeyName);
+        const [jsonStr, ttl] = await Promise.all([
+            redisClient.get(cacheKeyName),
+            redisClient.ttl(cacheKeyName)
+        ]);
 
         if (ttl > 0) {
-            const val = await redisClient.get(cacheKeyName);
+            const { data, delta } = JSON.parse(jsonStr);
 
-            return val;
+            if (this.shouldRecompute(delta, 1, Date.now() + ttl)) {
+                const result = await this.reCompute(name);
+                return result;
+            }
+
+            return data;
         }
 
-        const a = await this.collection.findOne({
-            name
-        });
+        const result = await this.reCompute(name);
 
-        await redisClient.setex(cacheKeyName, REDIS_TTL_SEC, a);
-
-        return a;
+        return result;
     }
 }
 

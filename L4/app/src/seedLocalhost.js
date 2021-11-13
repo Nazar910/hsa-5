@@ -1,7 +1,4 @@
 const { MongoClient } = require('mongodb');
-const fs = require('fs');
-const { promisify } = require('util');
-const path = require('path');
 
 async function seed() {
     const mongoClient = new MongoClient('mongodb://localhost:27017');
@@ -14,8 +11,6 @@ async function seed() {
     }));
 
     await collection.insertMany(docs);
-    await promisify(fs.writeFile)(path.join(__dirname, '../../siege-urls.txt'), docs.map(d => `http://localhost:8002/get/${d.name}`).join('\n'));
-
     await mongoClient.close();
 }
 
