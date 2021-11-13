@@ -19,29 +19,43 @@ Start node app (used request straight to node app because kept getting a lot of 
 
 * `siege -c10 -t60s -i --file siege-urls.txt`
 
-![image](https://user-images.githubusercontent.com/19594637/141653592-b888c2bd-edc2-4523-9c9e-d41a24bb4ca8.png)
+```
+Lifting the server siege...
+Transactions:		      109646 hits
+Availability:		      100.00 %
+Elapsed time:		       59.19 secs
+Data transferred:	        7.11 MB
+Response time:		        0.01 secs
+Transaction rate:	     1852.44 trans/sec
+Throughput:		        0.12 MB/sec
+Concurrency:		        9.60
+Successful transactions:      109646
+Failed transactions:	           0
+Longest transaction:	        0.05
+Shortest transaction:	        0.00
+```
 
 
 * `siege -c25 -t60s -i --file siege-urls.txt`
 
-![image](https://user-images.githubusercontent.com/19594637/141653642-9d5bc9a8-1554-4096-81b3-41315a321607.png)
+![image](https://user-images.githubusercontent.com/19594637/141655267-b5c605d5-a7aa-4f97-a288-0a287ddd123a.png)
 
 
 * `siege -c50 -t60s -i --file siege-urls.txt`
 
-![image](https://user-images.githubusercontent.com/19594637/141653699-9a7cdef8-f5f0-43d0-bcf7-623acb33e232.png)
+![image](https://user-images.githubusercontent.com/19594637/141655297-3aed0f9f-afc6-47aa-880d-0e530627132b.png)
 
 * `siege -c100 -t60s -i --file siege-urls.txt`
 
-![image](https://user-images.githubusercontent.com/19594637/141653772-cb9e6db5-224f-4107-8fd0-a9b168d85015.png)
+![image](https://user-images.githubusercontent.com/19594637/141655351-2e7a625a-6b0a-46d0-bc71-754fa1dcb900.png)
 
 * `siege -c150 -t60s -i --file siege-urls.txt`
 
-![image](https://user-images.githubusercontent.com/19594637/141653865-74e0e22d-93fa-4289-b3f8-161c9847ad21.png)
+![image](https://user-images.githubusercontent.com/19594637/141655389-3d47f3b5-6113-4172-8881-5c60ca1f69c4.png)
 
 * `siege -c200 -t60s -i --file siege-urls.txt`
 
-![image](https://user-images.githubusercontent.com/19594637/141653912-03d92d5a-e937-4112-a112-f234e152a6cf.png)
+![image](https://user-images.githubusercontent.com/19594637/141655429-e394849c-c94d-42d2-b352-f67e928dec02.png)
 
 * `siege -c250 -t60s -i --file siege-urls.txt`
 
