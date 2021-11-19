@@ -2,7 +2,8 @@
 `Try to imagine Instagram-like service architecture. Work only on news feed, subscriptions, comments and likes + media`
 
 # Diagram
-![image](https://user-images.githubusercontent.com/19594637/142653715-35366fbf-da0d-4c59-ae16-75a8af99d71e.png)
+![image](https://user-images.githubusercontent.com/19594637/142654407-70aeb519-617d-4c94-a63f-f36a2e58ac8b.png)
+
 
 
 # Explanation
