@@ -1,7 +1,7 @@
 # Task
 Configure nginx images caching:
 * cache only images requested atleast twice
-* add ability to drop cache of specifiec file
+* add ability to drop cache of specific file
 
 # Prerequisites
 
