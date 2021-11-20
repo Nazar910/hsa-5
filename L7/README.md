@@ -42,7 +42,10 @@ Because we know what `proxy_cache_key` is and we know where data is stored. In o
 
 Example:
 * we have loaded 2.jpg into cache (got `X-Proxy-Cache: HIT`)
-* `curl -X PURGE http://localhost:8080/2.jpg`
+* execute `curl` command in shell
+```
+    $ curl -X PURGE http://localhost:8080/2.jpg
+```
 * when we hit http://localhost:8080/2.jpg in our browser we'll see `X-Proxy-Cache: MISS` + there will be no cache record in /data/nginx/cache for this image.
 
 # Project structure
