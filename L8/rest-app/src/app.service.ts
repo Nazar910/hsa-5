@@ -13,8 +13,8 @@ export class AppService {
     return 'Hello World!';
   }
 
-  async getUsers(): Promise<User[]> {
-    const users = await knex.select('*').from('users');
+  async getUsers(date: Date): Promise<User[]> {
+    const users = await knex.select('*').from('users').where('date', date);
 
     return users;
   }

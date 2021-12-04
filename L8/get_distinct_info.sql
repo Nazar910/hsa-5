@@ -1,0 +1,1 @@
+SELECT COUNT(DISTINCT date), COUNT(*) FROM users;

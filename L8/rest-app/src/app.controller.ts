@@ -1,5 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { AppService } from './app.service';
+
+interface GetUsersQuery {
+  date: Date;
+}
 
 @Controller()
 export class AppController {
@@ -11,7 +15,7 @@ export class AppController {
   }
 
   @Get('/users')
-  async getUsers() {
-    return this.appService.getUsers();
+  async getUsers(@Query() query: GetUsersQuery) {
+    return this.appService.getUsers(query.date);
   }
 }
