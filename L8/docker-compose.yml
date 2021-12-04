@@ -17,3 +17,11 @@ services:
     restart: always
     ports:
       - 8080:8080
+
+  rest-app:
+    container_name: rest-app
+    build: rest-app
+    environment:
+      - MYSQL_HOST=db
+    ports:
+      - 3000:3000
