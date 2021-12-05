@@ -5,4 +5,4 @@ CREATE TABLE users(
     name CHAR(30) NOT NULL,
     date DATE,
     PRIMARY KEY (id)
-);
+) ENGINE=InnoDB;
