@@ -1,8 +1,9 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 
 interface GetUsersQuery {
   date: Date;
+  op: '=' | '>';
 }
 
 @Controller()
@@ -16,6 +17,12 @@ export class AppController {
 
   @Get('/users')
   async getUsers(@Query() query: GetUsersQuery) {
-    return this.appService.getUsers(query.date);
+    if (query.op === '=') {
+      return this.appService.getUsersByDateEq(query.date);
+    } else if (query.op === '>') {
+      return this.appService.getUsersByDateGt(query.date);
+    } else {
+      throw new HttpException('BadRequest', HttpStatus.BAD_REQUEST);
+    }
   }
 }

@@ -1,5 +1,6 @@
 FROM node:16-buster
 
+WORKDIR /app
 COPY ./src ./src
 COPY ./package.json ./package.json
 COPY ./nest-cli.json ./nest-cli.json
