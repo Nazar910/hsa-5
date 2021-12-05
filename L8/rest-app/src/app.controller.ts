@@ -1,4 +1,4 @@
-import { Controller, Get, HttpException, HttpStatus, Query } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, Post, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 
 interface GetUsersQuery {
@@ -24,5 +24,10 @@ export class AppController {
     } else {
       throw new HttpException('BadRequest', HttpStatus.BAD_REQUEST);
     }
+  }
+
+  @Post('/users')
+  async insert10Users(@Query() query: { reqMode: 0 | 1 | 2 }) {
+    await this.appService.insert10Users(query.reqMode);
   }
 }

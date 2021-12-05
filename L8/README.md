@@ -373,3 +373,74 @@ Failed transactions:	           0
 Longest transaction:	        0.35
 Shortest transaction:	        0.04
 ```
+
+## Testing `innodb_flush_log_at_trx_commit` option
+
+To measure perfomance siege requesting POST which creates 10 users per request.
+Per each test set separate `users_${reqMode}` table was created (one per each option of `innodb_flush_log_at_trx_commit`)
+```
+  siege -c10 -t60s "http://localhost:3000/users?reqMode=1 POST {}"
+```
+
+* innodb_flush_log_at_trx_commit=1
+```
+Transactions:		       23820 hits
+Availability:		      100.00 %
+Elapsed time:		       59.70 secs
+Data transferred:	        0.00 MB
+Response time:		        0.02 secs
+Transaction rate:	      398.99 trans/sec
+Throughput:		        0.00 MB/sec
+Concurrency:		        9.93
+Successful transactions:       23820
+Failed transactions:	           0
+Longest transaction:	        0.14
+Shortest transaction:	        0.00
+```
+
+* innodb_flush_log_at_trx_commit=2
+```
+Transactions:		       51530 hits
+Availability:		      100.00 %
+Elapsed time:		       59.64 secs
+Data transferred:	        0.00 MB
+Response time:		        0.01 secs
+Transaction rate:	      864.02 trans/sec
+Throughput:		        0.00 MB/sec
+Concurrency:		        9.90
+Successful transactions:       51530
+Failed transactions:	           0
+Longest transaction:	        0.13
+Shortest transaction:	        0.00
+```
+
+* innodb_flush_log_at_trx_commit=0
+```
+Transactions:		       53055 hits
+Availability:		      100.00 %
+Elapsed time:		       59.53 secs
+Data transferred:	        0.00 MB
+Response time:		        0.01 secs
+Transaction rate:	      891.23 trans/sec
+Throughput:		        0.00 MB/sec
+Concurrency:		        9.91
+Successful transactions:       53055
+Failed transactions:	           0
+Longest transaction:	        0.11
+Shortest transaction:	        0.00
+```
+
+# Conclusion
+
+## SELECT
+
+We can observe that adding index to large tables can result in enormouse perfomance improvements.
+Using BTREE index is by idea more appropriate for range queries while HASH index must be a good fit
+for equality comparison.
+According to test results there is no really much difference between BTREE and HASH indices (possibly
+because of MySQL 8 silently using adaptive hash https://dev.mysql.com/doc/refman/8.0/en/innodb-adaptive-hash.html ignore our `innodb_adaptive_hash_index	OFF` value).
+
+## INSERT
+
+There is at least 3x insert difference between `innodb_flush_log_at_trx_commit=1` and `innodb_flush_log_at_trx_commit=2` or `innodb_flush_log_at_trx_commit=0`. But still not really big difference
+between 2 and 0 while 2 is really not as dangerous option as 0.
