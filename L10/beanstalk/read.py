@@ -13,7 +13,9 @@ with greenstalk.Client(('127.0.0.1', '11300')) as client:
 
     while job_read_count < JOB_COUNT:
         job = client.reserve()
-        # print(job.body)
+        # body = json.loads(job.body)
+        # print("--- %s ---" % (body))
+
         client.delete(job)
         job_read_count+=1
 
