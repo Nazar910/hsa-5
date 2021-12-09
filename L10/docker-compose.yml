@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  beanstalkd:
+    image: schickling/beanstalkd
+    container_name: beanstalkd
+    restart: always
+    ports:
+      - 11300:11300
