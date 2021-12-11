@@ -9,14 +9,16 @@
 ```
 $ JOB_COUNT=1000000 python beanstalk/write.py
 
---- 42.654876947402954 seconds ---
+--- 35.85149669647217 seconds ---
 
 ```
-which means ~ 23474 RPS
+which means ~ 27894 RPS
 
 ### Read
 ```
 $ JOB_COUNT=1000000 python beanstalk/read.py
---- 77.15081548690796 seconds ---
+
+--- 72.90144324302673 seconds ---
+
 ```
-which means ~ 12970 RPS
+which means ~ 13717 RPS

@@ -11,7 +11,6 @@ with greenstalk.Client(('127.0.0.1', '11300')) as client:
     start_time = time.time()
 
     for i in range(0, JOB_COUNT):
-        msg = json.dumps({ 'foo': i })
-        client.put(msg)
+        client.put('{"foo":%d}' % i)
 
     print("--- %s seconds ---" % (time.time() - start_time))
