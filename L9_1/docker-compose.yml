@@ -4,15 +4,12 @@ services:
   redis-primary:
     image: docker.io/bitnami/redis:6.2
     ports:
-      - '6379'
+      - 6379:6379
     environment:
-      # - ALLOW_EMPTY_PASSWORD=yes
-      - REDIS_REPLICATION_MODE=master
-      - REDIS_PASSWORD=foobared
-      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+      - ALLOW_EMPTY_PASSWORD=yes
     volumes:
-      - 'redis_data:/bitnami/redis/data'
-      - './redis-primary321.conf:/opt/bitnami/redis/etc/redis.conf'
+      - './redis-data/redis-primary:/bitnami/redis/data'
+      - './redis-primary.conf:/opt/bitnami/redis/mounted-etc/redis.conf'
 
   redis-secondary:
     image: docker.io/bitnami/redis:6.2
@@ -22,15 +19,5 @@ services:
       - redis-primary
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
-    #   - REDIS_REPLICATION_MODE=slave
-    #   - REDIS_MASTER_HOST=redis-primary
-    #   - REDIS_MASTER_PORT_NUMBER=6379
-    #   - REDIS_MASTER_PASSWORD=example
-    #   - REDIS_PASSWORD=example
-    #   - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
     volumes:
       - './redis-secondary.conf:/opt/bitnami/redis/mounted-etc/redis.conf'
-
-volumes:
-  redis_data:
-    driver: local
