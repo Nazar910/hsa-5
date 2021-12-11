@@ -7,3 +7,17 @@ services:
     restart: always
     ports:
       - 11300:11300
+  redis_aof:
+    image: 'bitnami/redis:latest'
+    ports:
+      - 7000:6379
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+
+  redis_rdb:
+    image: 'bitnami/redis:latest'
+    ports:
+      - 7001:6379
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_AOF_ENABLED=no
