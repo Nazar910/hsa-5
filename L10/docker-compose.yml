@@ -13,6 +13,8 @@ services:
       - 7000:6379
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - ./redis-aof.conf:/opt/bitnami/redis/mounted-etc/redis.conf
 
   redis_rdb:
     image: 'bitnami/redis:latest'

@@ -29,19 +29,19 @@ which means ~ 13717 RPS
 ```
 $ JOB_COUNT=1000000 REDIS_PORT=7000 python redis/write.py
 
---- 64.76231265068054 seconds ---
+--- 67.21776103973389 seconds ---
 
 ```
-which means ~ 15441 RPS
+which means ~ 14880 RPS
 
 ### Read
 ```
 $ JOB_COUNT=1000000 REDIS_PORT=7000 python redis/read.py
 
---- 65.55255174636841 seconds ---
+--- 66.73979783058167 seconds ---
 
 ```
-which means ~ 15255 RPS
+which means ~ 14992 RPS
 
 ## Redis RDB
 
