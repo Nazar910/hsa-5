@@ -279,23 +279,13 @@ Already done in [L4 homework](https://github.com/Nazar910/hsa-5/tree/main/L4) bu
 
 scratch code
 ```python
-def compute():
-    cur = conn.cursor()
-
-    cur.execute('select favourite_number, count(id) from users group by favourite_number order by count(id) desc limit 20;')
-    result = cur.fetchmany()
-
-    cur.close()
-
-    return result
-
 def should_recompute(delta, beta, ttl):
     now_ms = time.time() * 1000
     return now_ms - delta * beta * math.log(random.random()) >= now_ms + ttl * 1000
 
-def recompute():
+async def recompute():
     start_time = time.time() * 1000
-    data = compute()
+    data = await compute()
     delta = time.time() * 1000 - start_time
 
     result = {'data': data, 'delta': delta}
@@ -304,19 +294,19 @@ def recompute():
 
     return result
 
-def get_with_cache():
-    result = redisClient.get(cache_key)
+async def get_with_cache():
     ttl = redisClient.ttl(cache_key)
 
     if ttl > 0:
+        result = redisClient.get(cache_key)
         parsed_json = json.loads(result)
 
         if should_recompute(parsed_json['delta'], 1, ttl):
-            return recompute()
+            return await recompute()
 
         return parsed_json
 
-    return recompute()
+    return await recompute()
 ```
 
 ### Result without probabilistic cache refresh
