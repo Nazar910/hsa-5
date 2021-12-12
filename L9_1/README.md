@@ -322,35 +322,33 @@ def get_with_cache():
 ### Result without probabilistic cache refresh
 
 ```
-Transactions:		       46661 hits
+Transactions:		       64355 hits
 Availability:		      100.00 %
-Elapsed time:		       59.75 secs
-Data transferred:	        0.09 MB
-Response time:		        0.13 secs
-Transaction rate:	      780.94 trans/sec
+Elapsed time:		       59.47 secs
+Data transferred:	        0.12 MB
+Response time:		        0.07 secs
+Transaction rate:	     1082.14 trans/sec
 Throughput:		        0.00 MB/sec
-Concurrency:		       99.63
-Successful transactions:       46661
+Concurrency:		       72.88
+Successful transactions:       64355
 Failed transactions:	           0
-Longest transaction:	        0.75
-Shortest transaction:	        0.06
+Longest transaction:	       20.34
+Shortest transaction:	        0.00
 ```
 
 ### Result with probabilistic cache refresh
-
 ```
-Transactions:		       47467 hits
+Transactions:		       42620 hits
 Availability:		      100.00 %
-Elapsed time:		       59.94 secs
-Data transferred:	        0.09 MB
-Response time:		        0.13 secs
-Transaction rate:	      791.91 trans/sec
+Elapsed time:		       59.92 secs
+Data transferred:	        0.08 MB
+Response time:		        0.08 secs
+Transaction rate:	      711.28 trans/sec
 Throughput:		        0.00 MB/sec
-Concurrency:		       99.69
-Successful transactions:       47467
+Concurrency:		       57.59
+Successful transactions:       42620
 Failed transactions:	           0
-Longest transaction:	        0.95
-Shortest transaction:	        0.07
-```
+Longest transaction:	       14.68
+Shortest transaction:	        0.00
 
-From result we see that our max/min transaction time is worther than without probabilistic cache refresh BUT as we can see our transaction rate increased (strange results can be cause by really long but not so heave operation on Postgre)
+```
