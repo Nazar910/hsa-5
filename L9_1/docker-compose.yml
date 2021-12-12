@@ -21,3 +21,14 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
     volumes:
       - './redis-secondary.conf:/opt/bitnami/redis/mounted-etc/redis.conf'
+
+  postgres:
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpassword
+      POSTGRES_DB: test_db
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data

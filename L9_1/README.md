@@ -14,7 +14,7 @@ masterauth foobared
 
 In case of succesfull start we'll see something similar in the logs of primary:
 ```
-edis-primary_1    | 1:M 12 Dec 2021 07:08:04.288 * Ready to accept connections
+redis-primary_1    | 1:M 12 Dec 2021 07:08:04.288 * Ready to accept connections
 redis-primary_1    | 1:M 12 Dec 2021 07:08:04.759 * Replica 172.27.0.3:6379 asks for synchronization
 redis-primary_1    | 1:M 12 Dec 2021 07:08:04.759 * Full resync requested by replica 172.27.0.3:6379
 redis-primary_1    | 1:M 12 Dec 2021 07:08:04.759 * Replication backlog created, my new replication IDs are 'a90c2d971fea90524af99a2a94a4b794116602c8' and '0000000000000000000000000000000000000000'
@@ -265,3 +265,92 @@ keys with expiration count = [b'foo-bar-0-withexp', b'foo-bar-3-withexp', b'foo-
 {'evicted_keys': 2}
 errors {}
 ```
+
+## Probabilistic cache refhresh
+
+Already done in [L4 homework](https://github.com/Nazar910/hsa-5/tree/main/L4) but as of interest in learning Python will do it again :)
+
+### Prerequisites
+* users table with 10m records
+* complex group by query on GET / request that takes up to 700 ms to execute
+* redis cache record TTL = 5 sec
+* siege command = `siege -c25 -t60s http://localhost:5000`
+
+
+scratch code
+```python
+def compute():
+    cur = conn.cursor()
+
+    cur.execute('select favourite_number, count(id) from users group by favourite_number order by count(id) desc limit 20;')
+    result = cur.fetchmany()
+
+    cur.close()
+
+    return result
+
+def should_recompute(delta, beta, ttl):
+    now_ms = time.time() * 1000
+    return now_ms - delta * beta * math.log(random.random()) >= now_ms + ttl * 1000
+
+def recompute():
+    start_time = time.time() * 1000
+    data = compute()
+    delta = time.time() * 1000 - start_time
+
+    result = {'data': data, 'delta': delta}
+
+    redisClient.setex(cache_key, 15, json.dumps(result))
+
+    return result
+
+def get_with_cache():
+    result = redisClient.get(cache_key)
+    ttl = redisClient.ttl(cache_key)
+
+    if ttl > 0:
+        parsed_json = json.loads(result)
+
+        if should_recompute(parsed_json['delta'], 1, ttl):
+            return recompute()
+
+        return parsed_json
+
+    return recompute()
+```
+
+### Result without probabilistic cache refresh
+
+```
+Transactions:		       46661 hits
+Availability:		      100.00 %
+Elapsed time:		       59.75 secs
+Data transferred:	        0.09 MB
+Response time:		        0.13 secs
+Transaction rate:	      780.94 trans/sec
+Throughput:		        0.00 MB/sec
+Concurrency:		       99.63
+Successful transactions:       46661
+Failed transactions:	           0
+Longest transaction:	        0.75
+Shortest transaction:	        0.06
+```
+
+### Result with probabilistic cache refresh
+
+```
+Transactions:		       47467 hits
+Availability:		      100.00 %
+Elapsed time:		       59.94 secs
+Data transferred:	        0.09 MB
+Response time:		        0.13 secs
+Transaction rate:	      791.91 trans/sec
+Throughput:		        0.00 MB/sec
+Concurrency:		       99.69
+Successful transactions:       47467
+Failed transactions:	           0
+Longest transaction:	        0.95
+Shortest transaction:	        0.07
+```
+
+From result we see that our max/min transaction time is worther than without probabilistic cache refresh BUT as we can see our transaction rate increased (strange results can be cause by really long but not so heave operation on Postgre)

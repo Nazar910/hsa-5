@@ -1,2 +1,4 @@
 redis-data
+pg-data
 venv
+__pycache__
