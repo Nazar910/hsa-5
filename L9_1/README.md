@@ -354,3 +354,20 @@ Shortest transaction:	        0.07
 ```
 
 From result we see that our max/min transaction time is worther than without probabilistic cache refresh BUT as we can see our transaction rate increased (strange results can be cause by really long but not so heave operation on Postgre)
+
+
+```
+Transactions:		      112838 hits
+Availability:		      100.00 %
+Elapsed time:		       59.61 secs
+Data transferred:	        0.22 MB
+Response time:		        0.05 secs
+Transaction rate:	     1892.94 trans/sec
+Throughput:		        0.00 MB/sec
+Concurrency:		       99.84
+Successful transactions:      112838
+Failed transactions:	           0
+Longest transaction:	        0.93
+Shortest transaction:	        0.04
+
+```
