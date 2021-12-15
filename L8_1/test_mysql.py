@@ -131,6 +131,7 @@ def non_repeatable_read():
             with con.cursor() as cursor:
                 cursor.execute('SELECT f2 FROM tbl1 WHERE f1=1')
                 print('session 1: select finished % s' % cursor.fetchmany())
+                time.sleep(0.01)
                 cursor.execute('UPDATE tbl1 SET f2=f2+1 WHERE f1=1')
                 print('session 1: update finished')
             con.commit()
@@ -140,6 +141,7 @@ def non_repeatable_read():
         con = get_connection()
         with con:
             con.begin()
+            time.sleep(0.01)
             with con.cursor() as cursor:
                 cursor.execute('SELECT f2 FROM tbl1 WHERE f1=1')
                 print('session 2: first select finished % s' %
