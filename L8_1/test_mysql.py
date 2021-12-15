@@ -1,5 +1,7 @@
 import pymysql
 import pymysql.cursors
+from multiprocessing import Process, process
+import time
 
 
 def get_connection():
@@ -42,35 +44,38 @@ def ensure_data():
         con.commit()
 
 
+def print_table():
+    con = get_connection()
+
+    with con:
+        with con.cursor() as cursor:
+            cursor.execute('SELECT * FROM tbl1')
+            results = cursor.fetchall()
+            print(results)
+
 def lost_update():
-    con1 = get_connection()
-    con2 = get_connection()
+    def session1():
+        con = get_connection()
+        with con:
+            with con.cursor() as cursor:
+                cursor.execute('UPDATE tbl1 SET f2=f2+20 WHERE f1=1;')
+                print('session1: update finished')
+            con.commit()
 
-    cursor1 = con1.cursor()
-    cursor2 = con2.cursor()
+    def session2():
+        con = get_connection()
+        with con:
+            with con.cursor() as cursor:
+                cursor.execute('UPDATE tbl1 SET f2=f2+25 WHERE f1=1;')
+                print('session2: update finished')
+            con.commit()
 
-    con1.begin()
-    con2.begin()
-
-    print('Got cursors')
-
-    cursor1.execute('UPDATE tbl1 SET f2=f2+20 WHERE f1=1;')
-    print('cursor1.execute')
-
-    cursor2.execute('UPDATE tbl1 SET f2=f2+25 WHERE f1=1;')
-    print('cursor2.execute')
-
-    con2.commit()
-    print('con2.commit')
-
-    con1.commit()
-    print('con1.commit')
-
-    cursor1.close()
-    con1.close()
-
-    cursor2.close()
-    con2.close()
+    p1 = Process(target=session1)
+    p1.start()
+    p2 = Process(target=session2)
+    p2.start()
+    p1.join()
+    p2.join()
 
     con = get_connection()
 
@@ -83,31 +88,32 @@ def lost_update():
 
 
 def dirty_read():
-    con1 = get_connection()
-    con2 = get_connection()
+    def session1():
+        con = get_connection()
+        with con:
+            with con.cursor() as cursor:
+                cursor.execute('SELECT f2 FROM tbl1 WHERE f1=1')
+                print('session1: select finished % s' % cursor.fetchmany())
+                cursor.execute('UPDATE tbl1 SET f2=f2+1 WHERE f1=1')
+                print('session1: update finished')
+            time.sleep(2)
+            con.commit()
+            print('session 1: commit')
 
-    cursor1 = con1.cursor()
-    cursor2 = con2.cursor()
+    def session2():
+        con = get_connection()
+        with con:
+            time.sleep(1)
+            with con.cursor() as cursor:
+                cursor.execute('SELECT f2 FROM tbl1 WHERE f1=1')
+                print('session2: select finished % s' % cursor.fetchmany())
 
-    con1.begin()
-    con2.begin()
-
-    cursor1.execute('SELECT f2 FROM tbl1 WHERE f1=1')
-    print('cursor1 result: %s' % cursor1.fetchmany())
-
-    cursor1.execute('UPDATE tbl1 SET f2=f2+1 WHERE f1=1')
-
-    cursor2.execute('SELECT f2 FROM tbl1 WHERE f1=1')
-    print('cursor2 result: %s' % cursor2.fetchmany())
-
-    con1.rollback()
-    con2.commit()
-
-    cursor1.close()
-    con1.close()
-
-    cursor2.close()
-    con2.close()
+    p1 = Process(target=session1)
+    p1.start()
+    p2 = Process(target=session2)
+    p2.start()
+    p1.join()
+    p2.join()
 
     con = get_connection()
 
@@ -139,8 +145,10 @@ def test_levels():
 
             con.commit()
 
-        # lost_update()
-        dirty_read()
+        lost_update()
+        print_table()
+        # dirty_read()
+        # print_table()
 
 
 test_levels()
