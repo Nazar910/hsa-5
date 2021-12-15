@@ -82,6 +82,43 @@ def lost_update():
         print(results)
 
 
+def dirty_read():
+    con1 = get_connection()
+    con2 = get_connection()
+
+    cursor1 = con1.cursor()
+    cursor2 = con2.cursor()
+
+    con1.begin()
+    con2.begin()
+
+    cursor1.execute('SELECT f2 FROM tbl1 WHERE f1=1')
+    print('cursor1 result: %s' % cursor1.fetchmany())
+
+    cursor1.execute('UPDATE tbl1 SET f2=f2+1 WHERE f1=1')
+
+    cursor2.execute('SELECT f2 FROM tbl1 WHERE f1=1')
+    print('cursor2 result: %s' % cursor2.fetchmany())
+
+    con1.rollback()
+    con2.commit()
+
+    cursor1.close()
+    con1.close()
+
+    cursor2.close()
+    con2.close()
+
+    con = get_connection()
+
+    with con:
+        cursor = con.cursor()
+
+        cursor.execute('SELECT * FROM tbl1')
+        results = cursor.fetchall()
+        print(results)
+
+
 TRANSACTION_LVLS = [
     'READ UNCOMMITTED',
     'READ COMMITTED',
@@ -102,7 +139,8 @@ def test_levels():
 
             con.commit()
 
-        lost_update()
+        # lost_update()
+        dirty_read()
 
 
 test_levels()
