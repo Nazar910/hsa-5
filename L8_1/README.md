@@ -201,14 +201,21 @@ session 1: commit
 [{'id': 412, 'f1': 1, 'f2': 0}, {'id': 413, 'f1': 2, 'f2': 0}, {'id': 414, 'f1': 15, 'f2': 20}]
 ```
 
-TODO parse out test_postgresql logs into similar results
+## PostgreSQL
+
+### `TRANSACTION LEVEL = READ UNCOMMITTED`
+
+LOST UPDATE not reproduced
 ```
-=============TRANSACTION LEVEL = READ UNCOMMITTED ====================
 ==========================LOST UPDATE========================
 session1: update finished
 session2: update finished
 =============================================================
 [(20, 2, 0), (19, 1, 45)]
+```
+
+DIRTY READ not reproduced
+```
 ==========================DIRTY READ========================
 session1: select finished [(0,)]
 session1: update finished
@@ -217,6 +224,11 @@ session 2: commit
 session 1: rollback
 =============================================================
 [(21, 1, 0), (22, 2, 0)]
+```
+
+NON REPEATABLE READ reproduced
+
+```
 ======================NON REPEATABLE READ======================
 session 1: select finished [(0,)]
 session 1: update finished
@@ -226,6 +238,10 @@ session 2: second select finished [(1,)]
 session 2: commit
 =============================================================
 [(24, 2, 0), (23, 1, 1)]
+```
+
+PHANTOM READ reproduced
+```
 ======================PHANTOM READ======================
 session 2: first select finished [(0,)]
 session 1: insert finished
@@ -234,12 +250,21 @@ session 2: second select finished [(20,)]
 session 2: commit
 =============================================================
 [(25, 1, 0), (26, 2, 0), (27, 15, 20)]
-=============TRANSACTION LEVEL = READ COMMITTED ====================
+```
+
+### `TRANSACTION LEVEL = READ COMMITTED`
+
+LOST UPDATE not reproduced
+```
 ==========================LOST UPDATE========================
 session1: update finished
 session2: update finished
 =============================================================
 [(29, 2, 0), (28, 1, 45)]
+```
+
+DIRTY READ not reproduced
+```
 ==========================DIRTY READ========================
 session1: select finished [(0,)]
 session1: update finished
@@ -248,6 +273,11 @@ session 2: commit
 session 1: rollback
 =============================================================
 [(30, 1, 0), (31, 2, 0)]
+```
+
+NON REPEATABLE READ reproduced
+
+```
 ======================NON REPEATABLE READ======================
 session 1: select finished [(0,)]
 session 1: update finished
@@ -257,6 +287,10 @@ session 2: second select finished [(1,)]
 session 2: commit
 =============================================================
 [(33, 2, 0), (32, 1, 1)]
+```
+
+PHANTOM READ reproduced
+```
 ======================PHANTOM READ======================
 session 2: first select finished [(0,)]
 session 1: insert finished
@@ -265,7 +299,12 @@ session 2: second select finished [(20,)]
 session 2: commit
 =============================================================
 [(34, 1, 0), (35, 2, 0), (36, 15, 20)]
-=============TRANSACTION LEVEL = REPEATABLE READ ====================
+```
+
+### `TRANSACTION LEVEL = REPEATABLE READ`
+
+LOST UPDATE not reproduced (Got error from PostgreSQL)
+```
 ==========================LOST UPDATE========================
 session1: update finished
 Process Process-18:
@@ -280,6 +319,10 @@ psycopg2.errors.SerializationFailure: could not serialize access due to concurre
 
 =============================================================
 [(38, 2, 0), (37, 1, 20)]
+```
+
+DIRTY READ not reproduced
+```
 ==========================DIRTY READ========================
 session1: select finished [(0,)]
 session1: update finished
@@ -288,6 +331,11 @@ session 2: commit
 session 1: rollback
 =============================================================
 [(39, 1, 0), (40, 2, 0)]
+```
+
+NON REPEATABLE READ not reproduced
+
+```
 ======================NON REPEATABLE READ======================
 session 1: select finished [(0,)]
 session 1: update finished
@@ -297,6 +345,10 @@ session 2: second select finished [(0,)]
 session 2: commit
 =============================================================
 [(42, 2, 0), (41, 1, 1)]
+```
+
+PHANTOM READ not reproduced
+```
 ======================PHANTOM READ======================
 session 2: first select finished [(0,)]
 session 1: insert finished
@@ -305,7 +357,12 @@ session 2: second select finished [(0,)]
 session 2: commit
 =============================================================
 [(43, 1, 0), (44, 2, 0), (45, 15, 20)]
-=============TRANSACTION LEVEL = SERIALIZABLE ====================
+```
+
+### `TRANSACTION LEVEL = SERIALIZABLE`
+
+LOST UPDATE not reproduced (Got error from PostgreSQL)
+```
 ==========================LOST UPDATE========================
 session2: update finished
 Process Process-25:
@@ -320,6 +377,10 @@ psycopg2.errors.SerializationFailure: could not serialize access due to concurre
 
 =============================================================
 [(47, 2, 0), (46, 1, 25)]
+```
+
+DIRTY READ not reproduced
+```
 ==========================DIRTY READ========================
 session1: select finished [(0,)]
 session1: update finished
@@ -328,6 +389,11 @@ session 2: commit
 session 1: rollback
 =============================================================
 [(48, 1, 0), (49, 2, 0)]
+```
+
+NON REPEATABLE READ not reproduced
+
+```
 ======================NON REPEATABLE READ======================
 session 1: select finished [(0,)]
 session 1: update finished
@@ -337,6 +403,10 @@ session 2: second select finished [(0,)]
 session 2: commit
 =============================================================
 [(51, 2, 0), (50, 1, 1)]
+```
+
+PHANTOM READ not reproduced
+```
 ======================PHANTOM READ======================
 session 2: first select finished [(0,)]
 session 1: insert finished
