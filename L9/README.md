@@ -6,6 +6,17 @@
 * `word_dictionary.json` from https://github.com/dwyl/english-words as data for our index
 * using simple analyzer for text field `word`
 
+# Usage
+* docker-compose up -d
+* install script deps
+```
+    $ python3 -m venv venv && source venv/bin/active && pip install -r requirements
+```
+* run script (on first run it will ensure index and download index data)
+```
+    $ python search.py
+```
+
 # Results
 
 * search for word `algorithm`
