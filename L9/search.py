@@ -12,6 +12,7 @@ def grouper(iterable, n, fillvalue=None):
 es = Elasticsearch()
 
 INDEX_NAME = 'auto_complete_simple_idx'
+# INDEX_NAME = 'auto_complete_ngram_idx'
 
 # NGram index set up
 # settings = {
@@ -31,7 +32,7 @@ INDEX_NAME = 'auto_complete_simple_idx'
 #             'autocomplete': {
 #                 'type': 'edge_ngram',
 #                 'min_gram': 2,
-#                 'max_gram': 10,
+#                 'max_gram': 7,
 #                 'token_chars': [
 #                     'letter'
 #                 ]
@@ -88,23 +89,25 @@ def ensure_index():
 
 
 def search():
-    search_word = input('Enter word you want to search for: ')
+    while True:
+        search_word = input('Enter word you want to search for: ')
 
-    search_result = es.search(
-        index=INDEX_NAME,
-        query={
-            'match': {
-                'word': {
-                    'query': search_word,
-                    'fuzziness': 'AUTO:3,7'
+        search_result = es.search(
+            index=INDEX_NAME,
+            query={
+                'match': {
+                    'word': {
+                        'query': search_word,
+                        'fuzziness': 0 if len(search_word) <= 7 else 3
+                    }
                 }
             }
-        }
-    )
-    print('{:<15} {:<15}'.format('Word', '| Score'))
-    print('----------------------------------')
-    for hit in search_result['hits']['hits']:
-        print('{:<15} {:<15}'.format(hit['_source']['word'], '| {}'.format(hit['_score'])))
+        )
+        print('{:<15} {:<15}'.format('Word', '| Score'))
+        print('----------------------------------')
+        for hit in search_result['hits']['hits']:
+            print('{:<15} {:<15}'.format(
+                hit['_source']['word'], '| {}'.format(hit['_score'])))
 
 
 if __name__ == '__main__':
