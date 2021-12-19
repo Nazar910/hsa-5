@@ -11,46 +11,57 @@ def grouper(iterable, n, fillvalue=None):
 
 es = Elasticsearch()
 
-INDEX_NAME = 'auto_complete_idx'
+INDEX_NAME = 'auto_complete_simple_idx'
 
-settings = {
-    'analysis': {
-        'analyzer': {
-            'autocomplete': {
-                'tokenizer': 'autocomplete',
-                'filter': [
-                    'lowercase'
-                ]
-            },
-            'autocomplete_search': {
-                'tokenizer': 'lowercase'
-            }
-        },
-        'tokenizer': {
-            'autocomplete': {
-                'type': 'edge_ngram',
-                'min_gram': 2,
-                'max_gram': 10,
-                'token_chars': [
-                    'letter'
-                ]
-            }
-        }
-    }
-}
+# NGram index set up
+# settings = {
+#     'analysis': {
+#         'analyzer': {
+#             'autocomplete': {
+#                 'tokenizer': 'autocomplete',
+#                 'filter': [
+#                     'lowercase'
+#                 ]
+#             },
+#             'autocomplete_search': {
+#                 'tokenizer': 'lowercase'
+#             }
+#         },
+#         'tokenizer': {
+#             'autocomplete': {
+#                 'type': 'edge_ngram',
+#                 'min_gram': 2,
+#                 'max_gram': 10,
+#                 'token_chars': [
+#                     'letter'
+#                 ]
+#             }
+#         }
+#     }
+# }
+
+# mappings = {
+#     'properties': {
+#         'word': {
+#             'type': 'text',
+#             'analyzer': 'autocomplete',
+#             'search_analyzer': 'autocomplete_search'
+#         }
+#     }
+# }
+
+# Simple analyzer setup
+settings = {}
 
 mappings = {
     'properties': {
         'word': {
             'type': 'text',
-            'analyzer': 'autocomplete',
-            'search_analyzer': 'autocomplete_search'
+            'analyzer': 'simple',
+            'search_analyzer': 'simple'
         }
     }
 }
-
-# ngram for tokenizer
-# fuzziness for search
 
 
 def ensure_index():
@@ -84,7 +95,8 @@ def search():
         query={
             'match': {
                 'word': {
-                    'query': search_word
+                    'query': search_word,
+                    'fuzziness': 'AUTO:3,7'
                 }
             }
         }
