@@ -4,18 +4,16 @@ services:
 
   db:
     image: mysql:8
-    command: --default-authentication-plugin=mysql_native_password --slow-query-log=1 --long-query-time=2
-    #  --slow-query-log-file=/var/log/mysql-slow.log
+    command: --default-authentication-plugin=mysql_native_password --slow-query-log=1 --long-query-time=2 --slow-query-log-file=/var/log/mysql/mysql-slow.log
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: l13_db
     ports:
       - 3306:3306
-    # user: 1000:1000
     volumes:
       - ./data/mysql/lib:/var/lib/mysql
-      # - ./data/mysql/log:/var/log/mysql
+      - ./data/mysql/log:/var/log/mysql
 
   adminer:
     image: adminer
