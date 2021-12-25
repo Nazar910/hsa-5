@@ -49,7 +49,8 @@ output.logstash:
 ### MySQL data example
 
 * discovery
-![image](https://user-images.githubusercontent.com/19594637/147390834-1335ee36-ca31-455a-bf68-1bcce2a168f4.png)
+![image](https://user-images.githubusercontent.com/19594637/147392435-cb5b5e63-9ec3-4e68-a310-15825b5dd99f.png)
 * dashboard
-![image](https://user-images.githubusercontent.com/19594637/147390846-cbd3be81-22d3-4fbb-9119-ed31e2b87684.png)
+![image](https://user-images.githubusercontent.com/19594637/147392427-8c7d19ee-f622-4dc6-9640-4dc0b685e873.png)
+
 
