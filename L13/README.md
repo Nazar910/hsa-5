@@ -21,7 +21,7 @@ Used ELK stack from this [repo](https://github.com/deviantony/docker-elk).
 
 ### Filebeat
 
-* specify kibana url and logstash as output
+* specify kibana url and elasticsearch as output
 ```
 filebeat.config:
   modules:
@@ -38,8 +38,10 @@ setup.dashboard.enabled: true
 
 setup.kibana.host: "http://kibana:5601"
 
-output.logstash:
-  hosts: ["logstash:5044"]
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  username: "elastic"
+  password: "changeme"
 ```
 * set up kibana dashoboards:
 ```
@@ -52,5 +54,3 @@ output.logstash:
 ![image](https://user-images.githubusercontent.com/19594637/147392435-cb5b5e63-9ec3-4e68-a310-15825b5dd99f.png)
 * dashboard
 ![image](https://user-images.githubusercontent.com/19594637/147392427-8c7d19ee-f622-4dc6-9640-4dc0b685e873.png)
-
-
