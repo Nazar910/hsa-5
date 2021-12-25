@@ -18,3 +18,32 @@ command: --default-authentication-plugin=mysql_native_password --slow-query-log=
 ## ELK stack
 
 Used ELK stack from this [repo](https://github.com/deviantony/docker-elk).
+
+### Filebeat
+
+* specify kibana url and logstash as output
+```
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+filebeat.modules:
+  - module: mysql
+    slowlog:
+      enabled: true
+      var.paths: ["/opt/mysql/log/mysql-slow.log"]
+
+setup.dashboard.enabled: true
+
+setup.kibana.host: "http://kibana:5601"
+
+output.logstash:
+  hosts: ["logstash:5044"]
+```
+* set up kibana dashoboards:
+```
+    $ docker-compose exec filebeat filebeat setup -e
+```
+
+### MySQL dashboard example
