@@ -13,10 +13,10 @@ setup.dashboard.enabled: true
 
 setup.kibana.host: "http://kibana:5601"
 
-output.logstash:
-  hosts: ["logstash:5044"]
+# output.logstash:
+#   hosts: ["logstash:5044"]
 
-# output.elasticsearch:
-#   hosts: ["http://elasticsearch:9200"]
-#   username: "elastic"
-#   password: "changeme"
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  username: "elastic"
+  password: "changeme"
