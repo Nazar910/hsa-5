@@ -66,3 +66,6 @@ Used following docker-compose from doc https://docs.graylog.org/docs/docker
 * create Beat input in Graylog on port 5044
 
 ### MySQl logs example
+
+![image](https://user-images.githubusercontent.com/19594637/147406742-1ba4e8cf-ebb5-49cc-bc0b-959a1d3c756a.png)
+
