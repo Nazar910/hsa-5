@@ -68,4 +68,6 @@ Used following docker-compose from doc https://docs.graylog.org/docs/docker
 ### MySQl logs example
 
 ![image](https://user-images.githubusercontent.com/19594637/147406742-1ba4e8cf-ebb5-49cc-bc0b-959a1d3c756a.png)
+![image](https://user-images.githubusercontent.com/19594637/147407104-6801fd49-6db9-4504-8ffa-f0d504e5b420.png)
+
 
