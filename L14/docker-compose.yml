@@ -13,3 +13,8 @@ services:
     ports:
       - 5000
     stop_signal: SIGINT
+
+  kali:
+    image: kalilinux/kali-rolling
+    # on clean startup: apt update && apt -y install kali-linux-headless
+    command: sleep infinity
