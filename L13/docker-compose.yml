@@ -29,8 +29,12 @@ services:
       - ./data/mysql/log/mysql-slow.log:/opt/mysql/log/mysql-slow.log:ro
     networks:
       - elk
+      - graylog
 
 networks:
   elk:
     driver: bridge
     name: 'docker-elk_elk'
+  graylog:
+    driver: bridge
+    name: 'l13_graylog'

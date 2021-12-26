@@ -54,3 +54,15 @@ output.elasticsearch:
 ![image](https://user-images.githubusercontent.com/19594637/147392435-cb5b5e63-9ec3-4e68-a310-15825b5dd99f.png)
 * dashboard
 ![image](https://user-images.githubusercontent.com/19594637/147392427-8c7d19ee-f622-4dc6-9640-4dc0b685e873.png)
+
+
+## Graylog2
+
+Used following docker-compose from doc https://docs.graylog.org/docs/docker
+
+### Filebeat
+
+* used exact same filebeat config but as output specified Logstash
+* create Beat input in Graylog on port 5044
+
+### MySQl logs example
