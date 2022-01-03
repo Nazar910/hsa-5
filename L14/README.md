@@ -46,3 +46,44 @@ used [fping](https://www.kali.org/tools/fping/)
 ```
     $ fping -b 65510 nginx
 ```
+
+# Results
+
+Following command used to determine health of our application
+```
+    $ siege -d1 -c50 -t60s http://localhost:8080
+```
+Also we'll monitor docker stats using [TIG stack](https://hackmd.io/@lnu-iot/tig-stack)
+
+## standart nginx config without additional defence
+
+* slowloris attack
+Once we've reached 1022 connection we'll successfuly DOSed our service
+```
+slow HTTP test status on 35th second:
+
+initializing:        0
+pending:             0
+connected:           1022
+error:               0
+closed:              28
+service available:   NO
+```
+And our siege command results show us that our application was unable to server requests
+```
+siege aborted due to excessive socket failure; you
+can change the failure threshold in $HOME/.siegerc
+
+Transactions:		         512 hits
+Availability:		       33.33 %
+Elapsed time:		       16.26 secs
+Data transferred:	        0.00 MB
+Response time:		        0.02 secs
+Transaction rate:	       31.49 trans/sec
+Throughput:		        0.00 MB/sec
+Concurrency:		        0.65
+Successful transactions:         512
+Failed transactions:	        1024
+Longest transaction:	        0.07
+Shortest transaction:	        0.00
+```

@@ -65,3 +65,4 @@ services:
     restart: always
     ports:
       - 8001:8001
+
