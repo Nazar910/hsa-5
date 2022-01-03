@@ -104,6 +104,25 @@ We can only observe increase traffic on nginx container:
 ![Screenshot from 2022-01-03 18-35-30](https://user-images.githubusercontent.com/19594637/147955909-0c201d5c-0cc0-4139-986a-9d0f87fbc552.png)
 
 
+* http flood
+
+Using one kali linux container the only thing I could achieve is to siginficantly increase response times of the application:
+```
+Transactions:		        2897 hits
+Availability:		      100.00 %
+Elapsed time:		       59.32 secs
+Data transferred:	        0.01 MB
+Response time:		        0.52 secs
+Transaction rate:	       48.84 trans/sec
+Throughput:		        0.00 MB/sec
+Concurrency:		       25.59
+Successful transactions:        2897
+Failed transactions:	           0
+Longest transaction:	       14.40
+Shortest transaction:	        0.09
+```
+Also we can observe increase CPU and traffic on our nginx container:
+
 * slowloris attack
 
 Once we've reached 1022 connection we'll successfuly DOSed our service
