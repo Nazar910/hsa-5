@@ -122,6 +122,8 @@ Longest transaction:	       14.40
 Shortest transaction:	        0.09
 ```
 Also we can observe increase CPU and traffic on our nginx container:
+![Screenshot from 2022-01-03 18-58-40](https://user-images.githubusercontent.com/19594637/147958096-40632afc-3a05-4c6c-bd23-6d0bdfe4923e.png)
+
 
 * slowloris attack
 
