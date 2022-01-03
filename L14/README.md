@@ -87,3 +87,6 @@ Failed transactions:	        1024
 Longest transaction:	        0.07
 Shortest transaction:	        0.00
 ```
+What is really dangerous about this kind of attack is that it does not seems to be easy to track using metrics (the only spike for nginx container is RAM)
+![image](https://user-images.githubusercontent.com/19594637/147953185-646f4c15-069b-4a74-8654-209e172289c4.png)
+
