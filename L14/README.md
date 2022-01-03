@@ -53,9 +53,29 @@ Following command used to determine health of our application
 ```
     $ siege -d1 -c50 -t60s http://localhost:8080
 ```
+Example normal report
+```
+Transactions:		        5831 hits
+Availability:		      100.00 %
+Elapsed time:		       59.38 secs
+Data transferred:	        0.01 MB
+Response time:		        0.01 secs
+Transaction rate:	       98.20 trans/sec
+Throughput:		        0.00 MB/sec
+Concurrency:		        0.90
+Successful transactions:        5831
+Failed transactions:	           0
+Longest transaction:	        0.16
+Shortest transaction:	        0.00
+```
+
 Also we'll monitor docker stats using [TIG stack](https://hackmd.io/@lnu-iot/tig-stack)
 
 ## standart nginx config without additional defence
+
+* udp flood
+This attack doesn't seem to affect our application (possibly because we're not listening to udp ports :D ).
+The only thing we can track is increased amount of incomming traffic to nginx container:
 
 * slowloris attack
 Once we've reached 1022 connection we'll successfuly DOSed our service
@@ -89,5 +109,3 @@ Shortest transaction:	        0.00
 ```
 What is really dangerous about this kind of attack is that it does not seems to be easy to track using metrics (the only spike for nginx container is RAM)
 ![Screenshot from 2022-01-03 18-11-12](https://user-images.githubusercontent.com/19594637/147953506-abca9fc6-685f-4faf-9e31-4055c1146df2.png)
-
-
