@@ -74,10 +74,14 @@ Also we'll monitor docker stats using [TIG stack](https://hackmd.io/@lnu-iot/tig
 ## standart nginx config without additional defence
 
 * udp flood
+
 This attack doesn't seem to affect our application (possibly because we're not listening to udp ports :D ).
 The only thing we can track is increased amount of incomming traffic to nginx container:
+![Screenshot from 2022-01-03 18-21-29](https://user-images.githubusercontent.com/19594637/147954476-4faface4-860d-4d0e-b1b2-3bcc42e3a565.png)
+
 
 * slowloris attack
+
 Once we've reached 1022 connection we'll successfuly DOSed our service
 ```
 slow HTTP test status on 35th second:
