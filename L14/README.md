@@ -6,6 +6,9 @@
 # Additional resource
 * https://pentest.blog/how-to-perform-ddos-test-as-a-pentester/
 
+# App
+Is a simple nginx ([image link](https://hub.docker.com/_/nginx)) which proxies request to Flask app that returns 200 "Ok".
+
 # Kali Linux
 
 Used `kalilinux/kali-rolling` see [link](https://www.kali.org/docs/containers/using-kali-docker-images/)
@@ -79,6 +82,25 @@ This attack doesn't seem to affect our application (possibly because we're not l
 The only thing we can track is increased amount of incomming traffic to nginx container:
 ![Screenshot from 2022-01-03 18-21-29](https://user-images.githubusercontent.com/19594637/147954476-4faface4-860d-4d0e-b1b2-3bcc42e3a565.png)
 
+
+* icmp flood
+
+This attack doesn't seem to work on nginx:1.21. Since our `siege` command reports normal results:
+```
+Transactions:		        5866 hits
+Availability:		      100.00 %
+Elapsed time:		       59.32 secs
+Data transferred:	        0.01 MB
+Response time:		        0.00 secs
+Transaction rate:	       98.89 trans/sec
+Throughput:		        0.00 MB/sec
+Concurrency:		        0.37
+Successful transactions:        5866
+Failed transactions:	           0
+Longest transaction:	        0.11
+Shortest transaction:	        0.00
+```
+We can only observe increase traffic on nginx container:
 
 * slowloris attack
 
