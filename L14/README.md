@@ -179,3 +179,10 @@ Shortest transaction:	        0.00
 
 ```
 ![Screenshot from 2022-01-04 13-53-13](https://user-images.githubusercontent.com/19594637/148055345-17b2e7a6-76ce-4b5a-911d-7f21816a8fa5.png)
+
+* Ping of death
+
+Does not seems to be reproducable with modern software
+```
+fping: data size 65510 not valid, must be lower than 65488
+```
