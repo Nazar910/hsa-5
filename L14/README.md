@@ -158,3 +158,23 @@ Shortest transaction:	        0.00
 ```
 What is really dangerous about this kind of attack is that it does not seems to be easy to track using metrics (the only spike for nginx container is RAM)
 ![Screenshot from 2022-01-03 18-11-12](https://user-images.githubusercontent.com/19594637/147953506-abca9fc6-685f-4faf-9e31-4055c1146df2.png)
+
+* syn flood
+
+Doesn't seem to bother our application availability:
+```
+Lifting the server siege...
+Transactions:		       98327 hits
+Availability:		      100.00 %
+Elapsed time:		      179.49 secs
+Data transferred:	        0.19 MB
+Response time:		        0.36 secs
+Transaction rate:	      547.81 trans/sec
+Throughput:		        0.00 MB/sec
+Concurrency:		      199.59
+Successful transactions:       98327
+Failed transactions:	           0
+Longest transaction:	        3.20
+Shortest transaction:	        0.00
+
+```

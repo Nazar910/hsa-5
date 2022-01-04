@@ -2,6 +2,8 @@ version: '3.7'
 
 services:
   nginx:
+    cpus: 0.1
+    mem_limit: 64m
     image: nginx:1.21.4
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
@@ -15,6 +17,4 @@ services:
     stop_signal: SIGINT
 
   kali:
-    image: kalilinux/kali-rolling
-    # on clean startup: apt update && apt -y install kali-linux-headless
-    command: sleep infinity
+    build: ./kali
