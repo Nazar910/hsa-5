@@ -54,23 +54,25 @@ used [fping](https://www.kali.org/tools/fping/)
 
 Following command used to determine health of our application
 ```
-    $ siege -d1 -c200 -t120s http://localhost:8080
+    $ watch -n 1 'curl -i http://localhost:8080 -w %{time_total}'
 ```
-Example normal report
+Normal output:
 ```
-Transactions:		       23191 hits
-Availability:		      100.00 %
-Elapsed time:		      119.27 secs
-Data transferred:	        0.04 MB
-Response time:		        1.02 secs
-Transaction rate:	      194.44 trans/sec
-Throughput:		        0.00 MB/sec
-Concurrency:		      198.96
-Successful transactions:       23191
-Failed transactions:	           0
-Longest transaction:	        1.81
-Shortest transaction:	        0.09
+Every 1,0s: curl -i http://localhost:8080 -w %{time_total}
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 100     2  100     2    0     0   2000      0 --:--:-- --:--:-- --:--:--  2000
+HTTP/1.1 200 OK
+Server: nginx/1.21.4
+Date: Tue, 04 Jan 2022 12:45:08 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 2t
+Connection: keep-alive
+C
+Ok0,001719
 ```
+
 
 Also we'll monitor docker stats using [TIG stack](https://hackmd.io/@lnu-iot/tig-stack)
 
@@ -85,42 +87,14 @@ The only thing we can track is increased amount of incomming traffic to nginx co
 
 * icmp flood
 
-This attack doesn't seem to work on nginx:1.21. Since our `siege` command reports normal results:
-```
-Transactions:		       65207 hits
-Availability:		      100.00 %
-Elapsed time:		      119.72 secs
-Data transferred:	        0.12 MB
-Response time:		        0.37 secs
-Transaction rate:	      544.66 trans/sec
-Throughput:		        0.00 MB/sec
-Concurrency:		      199.47
-Successful transactions:       65207
-Failed transactions:	           0
-Longest transaction:	        1.40
-Shortest transaction:	        0.01
-```
+This attack doesn't seem to work on nginx:1.21/
 We can only observe increase traffic on nginx container:
 ![Screenshot from 2022-01-03 18-35-30](https://user-images.githubusercontent.com/19594637/147955909-0c201d5c-0cc0-4139-986a-9d0f87fbc552.png)
 
 
 * http flood
 
-Using one kali linux container the only thing I could achieve is to siginficantly increase response times of the application:
-```
-Transactions:		       16393 hits
-Availability:		      100.00 %
-Elapsed time:		      119.19 secs
-Data transferred:	        0.03 MB
-Response time:		        1.45 secs
-Transaction rate:	      137.54 trans/sec
-Throughput:		        0.00 MB/sec
-Concurrency:		      198.89
-Successful transactions:       16393
-Failed transactions:	           0
-Longest transaction:	        3.50
-Shortest transaction:	        0.01
-```
+Using one kali linux container the only thing I could achieve is to siginficantly increase response times of the application (from 1-2ms in normal to 750ms-1.5sec under load).
 Also we can observe increase CPU and traffic on our nginx container:
 ![Screenshot from 2022-01-03 18-58-40](https://user-images.githubusercontent.com/19594637/147958096-40632afc-3a05-4c6c-bd23-6d0bdfe4923e.png)
 
@@ -138,22 +112,9 @@ error:               0
 closed:              28
 service available:   NO
 ```
-And our siege command results show us that our application was unable to server requests
+And our watch curl command results show us that our application was unable to server requests
 ```
-siege aborted due to excessive socket failure; you
-can change the failure threshold in $HOME/.siegerc
-
-Transactions:		        2195 hits
-Availability:		       64.54 %
-Elapsed time:		        9.96 secs
-Data transferred:	        0.00 MB
-Response time:		        0.81 secs
-Transaction rate:	      220.38 trans/sec
-Throughput:		        0.00 MB/sec
-Concurrency:		      178.48
-Successful transactions:        2195
-Failed transactions:	        1206
-Longest transaction:	        1.50
+curl: (52) Empty reply from server
 ```
 What is really dangerous about this kind of attack is that it does not seems to be easy to track using metrics (the only spike for nginx container is RAM)
 ![Screenshot from 2022-01-03 18-11-12](https://user-images.githubusercontent.com/19594637/147953506-abca9fc6-685f-4faf-9e31-4055c1146df2.png)
@@ -185,3 +146,27 @@ Does not seems to be reproducable with modern software
 ```
 fping: data size 65510 not valid, must be lower than 65488
 ```
+
+
+## nginx with additional defence ([source](https://www.nginx.com/blog/mitigating-ddos-attacks-with-nginx-and-nginx-plus/))
+
+* http flood
+
+Adding limit_req directive restricts too much request from one ip.
+Because of this our siege command failed really early:
+```
+{	"transactions":			          14,
+	"availability":			        1.09,
+	"elapsed_time":			        2.69,
+	"data_transferred":		        0.24,
+	"response_time":		       42.63,
+	"transaction_rate":		        5.20,
+	"throughput":			        0.09,
+	"concurrency":			      221.87,
+	"successful_transactions":	          14,
+	"failed_transactions":		        1269,
+	"longest_transaction":		        0.80,
+	"shortest_transaction":		        0.00
+}
+```
+Still we can observe short CPU spikes when we try the attack:
