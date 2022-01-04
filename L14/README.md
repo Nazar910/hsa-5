@@ -170,3 +170,5 @@ Because of this our siege command failed really early:
 }
 ```
 Still we can observe short CPU spikes when we try the attack:
+![Screenshot from 2022-01-04 14-56-38](https://user-images.githubusercontent.com/19594637/148062494-60ce1905-fcfb-4fb2-b950-6f648006eacd.png)
+
