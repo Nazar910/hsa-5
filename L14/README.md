@@ -78,6 +78,24 @@ Also we'll monitor docker stats using [TIG stack](https://hackmd.io/@lnu-iot/tig
 
 ## standart nginx config without additional defence
 
+`nginx.conf`
+```
+events {
+    worker_connections  1024;
+}
+
+http {
+    server {
+        listen 8080;
+
+        location / {
+            proxy_pass http://app:5000/;
+        }
+    }
+}
+
+```
+
 * udp flood
 
 This attack doesn't seem to affect our application (possibly because we're not listening to udp ports :D ).
@@ -149,6 +167,35 @@ fping: data size 65510 not valid, must be lower than 65488
 
 
 ## nginx with additional defence ([source](https://www.nginx.com/blog/mitigating-ddos-attacks-with-nginx-and-nginx-plus/))
+
+`nginx.conf`
+```
+events {
+    worker_connections  1024;
+}
+
+http {
+    limit_req_zone $binary_remote_addr zone=one:10m rate=5r/s;
+    limit_conn_zone $binary_remote_addr zone=addr:10m;
+    proxy_cache_path /var/log/nginx-cache levels=1:2 keys_zone=my_cache:10m;
+
+    server {
+        listen 8080;
+
+        client_body_timeout 5s;
+        client_header_timeout 5s;
+
+        location / {
+            limit_req zone=one;
+            limit_conn addr 2;
+            proxy_cache my_cache;
+            proxy_cache_valid 200 60m;
+            proxy_pass http://app:5000/;
+        }
+    }
+}
+
+```
 
 * udp flood
 
