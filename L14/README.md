@@ -150,6 +150,14 @@ fping: data size 65510 not valid, must be lower than 65488
 
 ## nginx with additional defence ([source](https://www.nginx.com/blog/mitigating-ddos-attacks-with-nginx-and-nginx-plus/))
 
+* udp flood
+
+same behaviour as with unprotected nginx
+
+* icmp flood
+
+same behaviour as with unprotected nginx
+
 * http flood
 
 Adding limit_req directive restricts too much request from one ip.
@@ -172,3 +180,63 @@ Because of this our siege command failed really early:
 Still we can observe short CPU spikes when we try the attack:
 ![Screenshot from 2022-01-04 14-56-38](https://user-images.githubusercontent.com/19594637/148062494-60ce1905-fcfb-4fb2-b950-6f648006eacd.png)
 
+BTW we could use something like
+```
+if ($http_user_agent ~* foo|bar) {
+    return 403;
+}
+```
+to completely block known unwanted user-agent.
+
+
+* slowloris
+
+Adding `limit_con` + `client_body_timeout` and `client_header_timeout` helped to defend from this attack.
+```
+	slowhttptest version 1.8.2
+ - https://github.com/shekyan/slowhttptest -
+test type:                        SLOW HEADERS
+number of connections:            1050
+URL:                              http://nginx:8080/
+verb:                             GET
+cookie:
+Content-Length header value:      4096
+follow up data max size:          52
+interval between follow up data:  10 seconds
+connections per seconds:          200
+probe connection timeout:         3 seconds
+test duration:                    240 seconds
+using proxy:                      no proxy
+
+Tue Jan  4 13:43:58 2022:
+slow HTTP test status on 10th second:
+
+initializing:        0
+pending:             0
+connected:           184
+error:               0
+closed:              866
+service available:   YES
+Tue Jan  4 13:43:59 2022:
+Test ended on 11th second
+Exit status: No open connections left
+CSV report saved to slowhttp.csv
+HTML report saved to slowhttp.html
+```
+
+* syn flood
+
+same behaviour as with unprotected nginx
+
+
+
+# Conclusion
+
+In this tests we tested several attacks. Most of them only affect number of traffic hitting your nginx (`udp`, `icmp`, `syn flood`). For example since we're not listening udp ports, we're not affected at all by `udp flood`.
+But at the same time, we should be affected by `icmp` or `syn`. Possible reason could be that `nginx:1.21` already protected from such attacks (by os, or default nginx params).
+
+Nevertheless, we find out that we experience increased load while `http flood`. In case the attacker is one machine, we quite easily can protect ourselves by `limit_req` directive to limit max requests rate from one ip.
+But in case we'll be DDOS-ed by a high number of devices, we should have also `cache` + some resource capacity or auto-scalling.
+
+And finally, we find out the most dangerous attack - `Slowloris attack`. This one is kinda tricky, because it doesn't seem to be recognizable by resource metrics but strong enough to DOS us. The solution for us is
+to limit max connection from one ip (`limit_con`) and set up timeouts for getting req body and headers (`client_body_timeout`, `client_header_timeout`).
