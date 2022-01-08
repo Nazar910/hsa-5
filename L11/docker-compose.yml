@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  cdn:
+    image: sameersbn/bind:9.16.1-20200524
+    restart: always
+    volumes:
+      - ./bind9:/etc/bind
