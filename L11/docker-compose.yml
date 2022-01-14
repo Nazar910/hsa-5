@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   cdn:
-    image: sameersbn/bind:9.16.1-20200524
+    image: ubuntu/bind9:9.16-21.10_beta
     restart: always
     volumes:
       - ./bind9:/etc/bind
