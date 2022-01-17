@@ -1,8 +1,19 @@
 version: '3.8'
 
 services:
-  cdn:
-    image: ubuntu/bind9:9.16-21.10_beta
+  bind:
+    # image: sameersbn/bind:9.16.1-20200524
+    # image: ubuntu/bind9:9.16-21.10_beta
+    image: resystit/bind9
     restart: always
+    # environment:
+      # - WEBMIN_ENABLED=false
+    # ports:
+      # - 10000:10000
     volumes:
-      - ./bind9:/etc/bind
+      - ./bind9/named.conf:/etc/bind/named.conf
+      - ./bind9/geo:/etc/bind/geo
+      # - ./bind9/de.cdn.img.com:/etc/bind/de.cdn.img.com
+      # - ./bind9/de.cdn.img.com:/etc/bind/ua.cdn.img.com
+      # - ./bind9:/etc/bind
+      # - ./etc:/etc/bind
