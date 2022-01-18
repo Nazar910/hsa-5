@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+
+  mysql-m:
+    image: mysql:5.7
+    # command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql-m-conf.d:/etc/mysql/conf.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+      - MYSQL_DATABASE=test
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
