@@ -35,6 +35,6 @@ UNLOCK TABLES;
 CREATE DATABASE mydb;
 ```
 * import dump
-* applied configure_replica.sql (important to change MASTER_LOG_FILE and MAST_LIG_POS to data you've seen on `SHOW MASTER STATUS`)
+* applied configure_replica.sql (important to change MASTER_LOG_FILE and MAST_LOG_POS to data you've seen on `SHOW MASTER STATUS`)
 
 # Results
