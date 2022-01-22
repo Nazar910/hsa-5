@@ -14,8 +14,6 @@ def get_connection(port):
         cursorclass=pymysql.cursors.DictCursor
     )
 
-    con.autocommit = True
-
     return con
 
 

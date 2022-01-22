@@ -63,3 +63,13 @@ data on s1
 data on s2
 [{'id': 1, 'name': 'some-event-0', 'counter': 0, 'description': 'some-descr-0'}, {'id': 2, 'name': 'some-event-1', 'counter': 1, 'description': 'some-descr-1'}, {'id': 3, 'name': 'some-event-2', 'counter': 2, 'description': 'some-descr-2'}, {'id': 4, 'name': 'some-event-3', 'counter': 3, 'description': 'some-descr-3'}, {'id': 5, 'name': 'some-event-4', 'counter': 4, 'description': 'some-descr-4'}, {'id': 6, 'name': 'some-event-5', 'counter': 5, 'description': 'some-descr-5'}, {'id': 7, 'name': 'some-event-6', 'counter': 6, 'description': 'some-descr-6'}, {'id': 8, 'name': 'some-event-7', 'counter': 7, 'description': 'some-descr-7'}, {'id': 9, 'name': 'some-event-8', 'counter': 8, 'description': 'some-descr-8'}, {'id': 10, 'name': 'some-event-9', 'counter': 9, 'description': 'some-descr-9'}]
 ```
+* check replication is working
+```
+    $ python feed_data.py
+```
+Example output:
+```
+mysql-m count: 6010
+mysql-s-1 count: 6010
+mysql-s-2 count: 6010
+```
