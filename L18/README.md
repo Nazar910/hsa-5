@@ -94,3 +94,43 @@ mysql-m count: 7010
 mysql-s-1 count: 7010
 mysql-s-2 count: 7010
 ```
+* drop column
+Drop n-th column on mysql-s-1 (description)
+```
+ALTER TABLE events DROP COLUMN description
+```
+And we'll get following error on mysql-s-1:
+```
+mysql-s-1_1  | 2022-01-22T16:25:54.986840Z 2 [ERROR] Slave SQL for channel '': Error 'Unknown column 'description' in 'field list'' on query. Default database: 'mydb'. Query: 'INSERT INTO events(name, counter, description) VALUES ('some-event-0', 0, 'some-descr-0')', Error_code: 1054
+mysql-s-1_1  | 2022-01-22T16:25:54.986899Z 2 [Warning] Slave: Unknown column 'description' in 'field list' Error_code: 1054
+mysql-s-1_1  | 2022-01-22T16:25:54.986906Z 2 [ERROR] Error running query, slave SQL thread aborted. Fix the problem, and restart the slave SQL thread with "SLAVE START". We stopped at log 'mysql-bin.000003' position 2634514.
+```
+and as a result out of sync `mysql-s-1` replica:
+```
+mysql-m count: 11
+mysql-s-1 count: 10
+mysql-s-2 count: 11
+```
+It is because of `binlog_format: MIXED` that was used.
+When `binlog_format: ROW` it successfully inserts:
+```
+mysql-m count: 11
+mysql-s-1 count: 11
+mysql-s-2 count: 11
+```
+
+Drop (n-1)-th column on mysql-s-1 (counter)
+```
+ALTER TABLE events DROP COLUMN counter
+```
+and again we hit out of sync replica
+```
+mysql-m count: 11
+mysql-s-1 count: 10
+mysql-s-2 count: 11
+```
+with error
+```
+mysql-s-1_1  | 2022-01-22T16:38:52.353366Z 5 [ERROR] Slave SQL for channel '': Column 2 of table 'mydb.events' cannot be converted from type 'int' to type 'text', Error_code: 1677
+mysql-s-1_1  | 2022-01-22T16:38:52.353921Z 5 [ERROR] Error running query, slave SQL thread aborted. Fix the problem, and restart the slave SQL thread with "SLAVE START". We stopped at log 'mysql-bin.000003' position 4064.
+```

@@ -25,7 +25,7 @@ con_primary = get_connection(3306)
 con_s1 = get_connection(3307)
 con_s2 = get_connection(3308)
 
-for counter in range(0, 1000):
+for counter in range(0, 1):
     con_primary.begin()
     con_primary.query(
         'INSERT INTO events(name, counter, description) VALUES (\'some-event-{}\', {}, \'some-descr-{}\')'.format(counter, counter, counter))
