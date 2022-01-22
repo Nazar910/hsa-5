@@ -73,3 +73,24 @@ mysql-m count: 6010
 mysql-s-1 count: 6010
 mysql-s-2 count: 6010
 ```
+* turn off mysql-s-1
+
+```
+    $ docker kill l18_mysql-s-1_1
+```
+When we run our `feed_data.py` but without s1 replicae we'll see:
+```
+mysql-m count: 7010
+mysql-s-1 count: OUT
+mysql-s-2 count: 7010
+```
+But when we start `mysql-s-1` again
+```
+    $ docker-compose up -d mysql-s-1
+```
+we'll see that it fethces all data it missed:
+```
+mysql-m count: 7010
+mysql-s-1 count: 7010
+mysql-s-2 count: 7010
+```

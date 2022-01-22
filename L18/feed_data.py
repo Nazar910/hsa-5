@@ -32,5 +32,6 @@ for counter in range(0, 1000):
     con_primary.commit()
 
 print('mysql-m count: {}'.format(get_count(con_primary)))
+# print('mysql-s-1 count: OUT')
 print('mysql-s-1 count: {}'.format(get_count(con_s1)))
 print('mysql-s-2 count: {}'.format(get_count(con_s2)))
