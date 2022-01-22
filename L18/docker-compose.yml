@@ -4,12 +4,12 @@ services:
 
   mysql-m:
     image: mysql:5.7
-    # command: --default-authentication-plugin=mysql_native_password
     restart: always
     ports:
       - 3306:3306
     volumes:
       - ./mysql-m-conf.d:/etc/mysql/conf.d
+      - ./dumps:/opt/data/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=pass
       - MYSQL_DATABASE=mydb
@@ -21,8 +21,10 @@ services:
       - 3307:3306
     volumes:
       - ./mysql-s-1-conf.d:/etc/mysql/conf.d
+      - ./dumps:/opt/data/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=pass
+      - MYSQL_DATABASE=mydb
 
   mysql-s-2:
     image: mysql:5.7
@@ -31,8 +33,10 @@ services:
       - 3308:3306
     volumes:
       - ./mysql-s-2-conf.d:/etc/mysql/conf.d
+      - ./dumps:/opt/data/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=pass
+      - MYSQL_DATABASE=mydb
 
   adminer:
     image: adminer
