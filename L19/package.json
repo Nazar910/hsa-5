@@ -1,0 +1,15 @@
+{
+  "name": "l19",
+  "version": "1.0.0",
+  "description": "* create 3 docker containers: postgresql-b, postgresql-b1, postgresql-b2 * setup horizontal sharding as described in lesson * insert 1M rows * Measure performance with and without sharding. Compare.",
+  "main": "setUp.js",
+  "scripts": {
+    "setup_sharding": "node setUp.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^8.7.1"
+  }
+}
