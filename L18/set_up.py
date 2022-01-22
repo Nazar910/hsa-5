@@ -18,24 +18,6 @@ def get_connection(port):
 
     return con
 
-con_primary = get_connection(3306)
-con_s1 = get_connection(3307)
-con_s2 = get_connection(3308)
-
-# ensure tables on master
-con_primary.query("DROP TABLE IF EXISTS events")
-con_primary.query(
-    """
-    CREATE TABLE events(
-        id INT NOT NULL AUTO_INCREMENT,
-        name CHAR(30) NOT NULL,
-        counter INT NOT NULL,
-        description TEXT NOT NULL,
-        PRIMARY KEY(id)
-    ) ENGINE=InnoDB;
-    """
-)
-print('Table structure on primary setup finished')
 
 def insert_primary(counter):
     con_primary.begin()
@@ -43,32 +25,16 @@ def insert_primary(counter):
         'INSERT INTO events(name, counter, description) VALUES (\'some-event-{}\', {}, \'some-descr-{}\')'.format(counter, counter, counter))
     con_primary.commit()
 
-insert_primary(0)
-
 
 def cursor_exec(con, query):
     cursor = con.cursor()
     cursor.execute(query)
     return cursor.fetchall()
 
+
 def print_select_events(con):
     print(cursor_exec(con, 'SELECT * FROM events'))
 
-print('Initial data on primary node')
-print_select_events(con_primary)
-
-con_primary.query("GRANT REPLICATION SLAVE ON *.* TO 'slave'@'%' IDENTIFIED BY 'password'")
-con_primary.query("FLUSH PRIVILEGES")
-con_primary.query("USE mydb")
-con_primary.query("FLUSH TABLES WITH READ LOCK")
-
-[ master_status ] = cursor_exec(con_primary, 'SHOW MASTER STATUS')
-
-print(master_status)
-
-os.system('docker-compose exec mysql-m bash -c "mysqldump -u root -p\'pass\' mydb > /opt/data/mysql/mydb.sql"')
-
-con_primary.query("UNLOCK TABLES")
 
 def set_up_secondary(host, con):
     os.system(
@@ -85,9 +51,49 @@ def set_up_secondary(host, con):
     print('{} slave status:'.format(host))
     print(s_status)
 
+
+con_primary = get_connection(3306)
+con_s1 = get_connection(3307)
+con_s2 = get_connection(3308)
+
+# ============ Configure primary node ============
+# ensure tables on master
+con_primary.query("DROP TABLE IF EXISTS events")
+con_primary.query(
+    """
+    CREATE TABLE events(
+        id INT NOT NULL AUTO_INCREMENT,
+        name CHAR(30) NOT NULL,
+        counter INT NOT NULL,
+        description TEXT NOT NULL,
+        PRIMARY KEY(id)
+    ) ENGINE=InnoDB;
+    """
+)
+print('Table structure on primary setup finished')
+
+insert_primary(0)
+print('Initial data on primary node')
+print_select_events(con_primary)
+
+con_primary.query("GRANT REPLICATION SLAVE ON *.* TO 'slave'@'%' IDENTIFIED BY 'password'")
+con_primary.query("FLUSH PRIVILEGES")
+con_primary.query("USE mydb")
+con_primary.query("FLUSH TABLES WITH READ LOCK")
+
+[ master_status ] = cursor_exec(con_primary, 'SHOW MASTER STATUS')
+
+print(master_status)
+
+os.system('docker-compose exec mysql-m bash -c "mysqldump -u root -p\'pass\' mydb > /opt/data/mysql/mydb.sql"')
+
+con_primary.query("UNLOCK TABLES")
+
+# ============ Configure secondary nodes ============
 set_up_secondary('mysql-s-1', con_s1)
 set_up_secondary('mysql-s-2', con_s2)
 
+# ============ Insert some data and check ============
 for i in range(1, 10):
     insert_primary(i)
 
