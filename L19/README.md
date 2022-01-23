@@ -37,7 +37,10 @@ on postgesql-b2
 ```
 It is normal because `category_id` in seed was computed as `i % 2 + 1`.
 Also let's see some example data from each node:
-Command: `select * from books order by id limit 20;`
+Command:
+```
+SELECT * FROM books ORDER BY id LIMIT 20;
+```
 postgresql-b (main node):
 ```
 id | category_id | author  |     title     | year
@@ -112,4 +115,22 @@ id | category_id | author  |     title     | year
  35 |           2 | Some-35 | Some-title-35 | 1995
  37 |           2 | Some-37 | Some-title-37 | 1997
  39 |           2 | Some-39 | Some-title-39 | 1999
+```
+* measure performance with sharding:
+
+To test insert performance we can use
+```
+    $ npm run perf_test:insert_100K_rows
+```
+Output:
+```
+performance: 34.875s
+```
+To test select performance we can use
+```
+    $ npm run perf_test:select_1K_rows
+```
+Output:
+```
+performance: 1:01.307 (m:ss.mmm)
 ```

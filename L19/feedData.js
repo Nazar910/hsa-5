@@ -44,7 +44,7 @@ async function main() {
     const client = await initClient();
 
     const perfKey = 'performance';
-    const [start, end] = MEASURE_PERFORMANCE ? [console.time(perfKey), console.timeEnd(perfKey)] : [() => ({}), () => ({})];
+    const [start, end] = MEASURE_PERFORMANCE ? [() => console.time(perfKey), () => console.timeEnd(perfKey)] : [() => ({}), () => ({})];
 
     const startId = await getMaxId(client);
 

@@ -5,7 +5,9 @@
   "main": "setUp.js",
   "scripts": {
     "setup_sharding": "node setUp.js",
-    "feed_1M_rows": "ROW_COUNT=1000000 node feedData.js"
+    "feed_1M_rows": "ROW_COUNT=1000000 node feedData.js",
+    "perf_test:insert_100K_rows": "ROW_COUNT=100000 MEASURE_PERFORMANCE=true node feedData.js",
+    "perf_test:select_1K_rows": "ROW_COUNT=1000 node selectData.js"
   },
   "keywords": [],
   "author": "",
