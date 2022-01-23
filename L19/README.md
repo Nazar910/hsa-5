@@ -134,3 +134,41 @@ Output:
 ```
 performance: 1:01.307 (m:ss.mmm)
 ```
+
+* measure performance without sharding:
+
+For this purpose we can restart postgres(reset data):
+```
+    $ docker-compose down && docker-compose up -d
+```
+Create books table:
+```
+CREATE TABLE books (
+    id bigint not null,
+    category_id int not null,
+    author character varying not null,
+    title character varying not null,
+    year int not null
+);
+```
+Feed data:
+```
+    $ npm run feed_1M_rows
+```
+
+To test insert performance we can use
+```
+    $ npm run perf_test:insert_100K_rows
+```
+Output:
+```
+performance: 1.203s
+```
+To test select performance we can use
+```
+    $ npm run perf_test:select_1K_rows
+```
+Output:
+```
+performance: 30.303s
+```
