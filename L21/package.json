@@ -1,0 +1,15 @@
+{
+  "name": "l21",
+  "version": "1.0.0",
+  "description": "* implement Binary Search Tree insert/delete/search * profile space usage * profile time consumption",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bintrees": "^1.0.2"
+  }
+}
