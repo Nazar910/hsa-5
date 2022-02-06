@@ -1,4 +1,0 @@
-http://localhost:8080/bench/10
-http://localhost:8080/bench/100
-http://localhost:8080/bench/1000
-http://localhost:8080/bench/10000
