@@ -1,5 +1,6 @@
 const config = require('./config.json');
 const ld = require('lodash');
+const { Executor } = require('./executor');
 
 function getHeapTotal() {
     const used = process.memoryUsage();
@@ -21,11 +22,9 @@ for (const configEntry of config) {
     // enforce grabage collection
     gc();
 
-    const Executor = require(configEntry.path).Executor;
-
     const internalStats = [];
 
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 100; i++) {
         const heapUsedBefore = getHeapTotal();
         const executor = Executor.create();
         executor.init(configEntry.initArg);
@@ -41,8 +40,8 @@ for (const configEntry of config) {
 
     stats.push({
         size: configEntry.initArg,
-        ['time (mean), nanosec']: timeMean,
-        ['heap delta (mean), KB']: heapDeltaMean / 1024,
+        ['search duration (mean), nanosec']: timeMean,
+        ['heap delta (mean), KB']: Math.round(heapDeltaMean / 1024 * 100) / 100,
     });
 }
 

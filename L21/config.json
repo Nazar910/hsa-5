@@ -1,36 +1,29 @@
 [
     {
-        "path": "./executor.js",
         "initArg": 10,
         "execArg": 5
     },
     {
-        "path": "./executor.js",
         "initArg": 100,
         "execArg": 5
     },
     {
-        "path": "./executor.js",
         "initArg": 500,
         "execArg": 25
     },
     {
-        "path": "./executor.js",
         "initArg": 1000,
         "execArg": 35
     },
     {
-        "path": "./executor.js",
         "initArg": 5000,
         "execArg": 42
     },
     {
-        "path": "./executor.js",
         "initArg": 10000,
         "execArg": 27
     },
     {
-        "path": "./executor.js",
         "initArg": 100000,
         "execArg": 50
     }
