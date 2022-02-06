@@ -10,9 +10,9 @@
 ```
 
 # Space usage
-To inspect space usage used `index.js` script with following command:
+To inspect space usage used `inspect-memory.js` script with following command:
 ```
-    $ node --inspect-brk index.js
+    $ node --inspect-brk inspect-memory.js
 ```
 which allows us to use Chrome DevTools to do Memory snapshots and etc.
 * dataset size = 10
@@ -25,6 +25,20 @@ which allows us to use Chrome DevTools to do Memory snapshots and etc.
 So space complexity for the bst alog we've used is about `O(n)`.
 
 # Time consumption
+To inspect time conumption used `inspect-time.js` script which starts server running `search` on GET.
+`siege` cmd used to load `GET /`:
+```
+    $ siege -c1 -t30s http://localhost:8080
+```
+Cmd to run server:
+```
+    $ node --inspect inspect-time.js
+```
+After starting server, Chrome Dev Tools profiling were launched to track function timings.
+Results:
+* size 10
+* size 10_000
+* size 100_000
 
 # Reports script
 There is a manual [script](https://github.com/Nazar910/hsa-5/blob/main/L21/generate-reports.js) we can use to track search and time complexity:

@@ -1,4 +1,4 @@
-const config = require('./config.json');
+const config = require('./reports-config.json');
 const ld = require('lodash');
 const { Executor } = require('./executor');
 
