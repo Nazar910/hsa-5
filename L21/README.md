@@ -3,6 +3,13 @@
 * profile space usage
 * profile time consumption
 
+# Prerequisites
+* node
+* install deps
+```
+    $ npm install
+```
+
 # Reports script
 There is a manual [script](https://github.com/Nazar910/hsa-5/blob/main/L21/generate-reports.js) we can use to track search and time complexity:
 ```bash
