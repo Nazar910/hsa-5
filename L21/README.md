@@ -15,6 +15,14 @@ To inspect space usage used `index.js` script with following command:
     $ node --inspect-brk index.js
 ```
 which allows us to use Chrome DevTools to do Memory snapshots and etc.
+* dataset size = 10
+![image](https://github.com/Nazar910/hsa-5/blob/main/L21/screenshots/Node.size10.png?raw=true)
+* dataset size = 100
+![image](https://github.com/Nazar910/hsa-5/blob/main/L21/screenshots/Node.size100.png?raw=true)
+* dataset size = 500
+![image](https://github.com/Nazar910/hsa-5/blob/main/L21/screenshots/Node.size500.png?raw=true)
+
+So space complexity for the bst alog we've used is about `O(n)`.
 
 # Time consumption
 
