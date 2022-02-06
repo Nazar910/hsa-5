@@ -1,7 +1,6 @@
 # Tasks
-* implement Binary Search Tree insert/delete/search
-* profile space usage
-* profile time consumption
+* profile bst space usage
+* profile bst time consumption
 
 # Prerequisites
 * node
@@ -9,6 +8,15 @@
 ```
     $ npm install
 ```
+
+# Space usage
+To inspect space usage used `index.js` script with following command:
+```
+    $ node --inspect-brk index.js
+```
+which allows us to use Chrome DevTools to do Memory snapshots and etc.
+
+# Time consumption
 
 # Reports script
 There is a manual [script](https://github.com/Nazar910/hsa-5/blob/main/L21/generate-reports.js) we can use to track search and time complexity:
