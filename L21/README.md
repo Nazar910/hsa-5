@@ -37,8 +37,11 @@ Cmd to run server:
 After starting server, Chrome Dev Tools profiling were launched to track function timings.
 Results:
 * size 10
+![image](https://github.com/Nazar910/hsa-5/blob/main/L21/screenshots/TreeBase.find.size10.png?raw=true)
 * size 10_000
+![image](https://github.com/Nazar910/hsa-5/blob/main/L21/screenshots/TreeBase.find.size10k.png?raw=true)
 * size 100_000
+![image](https://github.com/Nazar910/hsa-5/blob/main/L21/screenshots/TreeBase.find.size100k.png?raw=true)
 
 # Reports script
 There is a manual [script](https://github.com/Nazar910/hsa-5/blob/main/L21/generate-reports.js) we can use to track search and time complexity:
