@@ -9,6 +9,9 @@
     $ npm install
 ```
 
+# Implementation
+* [bintrees](https://github.com/vadimg/js_bintrees) package used
+
 # Space usage
 To inspect space usage used `inspect-memory.js` script with following command:
 ```
