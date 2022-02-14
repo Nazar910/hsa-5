@@ -19,7 +19,7 @@ we'll see:
 ![image](https://github.com/Nazar910/hsa-5/blob/main/L24/screenshots/bucket-files-list.png?raw=true)
 * if you upload new file with same name it will not update current file but'll create new version:
 ![image](https://github.com/Nazar910/hsa-5/blob/main/L24/screenshots/versions.png?raw=true)
-Also we can see all version along with actions with that objects:
+Also we can see all versions along with actions with that objects:
 ![image](https://github.com/Nazar910/hsa-5/blob/main/L24/screenshots/versions-and-delete-markers.png?raw=true)
 * we can see server-access logs our this insert;
 ![image](https://github.com/Nazar910/hsa-5/blob/main/L24/screenshots/access-log-files-list.png?raw=true)
