@@ -12,7 +12,13 @@
 
 # Results
 
-When we upload new file, we'll see:
+When we upload new file,
+![image](https://github.com/Nazar910/hsa-5/blob/main/L24/screenshots/file-upload.png?raw=true)
+we'll see:
 * now it presents in our bucket;
+![image](https://github.com/Nazar910/hsa-5/blob/main/L24/screenshots/bucket-files-list.png?raw=true)
+* if you upload new file with same name it will not update current file but'll create new version:
+![image](https://github.com/Nazar910/hsa-5/blob/main/L24/screenshots/versions.png?raw=true)
 * we can see server-access logs our this insert;
+![image](https://github.com/Nazar910/hsa-5/blob/main/L24/screenshots/access-log-files-list.png?raw=true)
 * we can't delete or update current version of the file
