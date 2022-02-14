@@ -3,9 +3,12 @@
 
 # Steps
 * create S3 `test-bucket-b67fb58a-a753-441d-94a3-ef19577b3ab0` bucket with [WORM](https://aws.amazon.com/blogs/storage/protecting-data-with-amazon-s3-object-lock/) option enabled
+![image](https://github.com/Nazar910/hsa-5/blob/main/L24/screenshots/create-bucket.png?raw=true)
 * edit created bucket with default retention (I choosed 1 day)
-* create new bucket `server-access-log-for-test-bucket-b67fb58a-a753-441d-94a3-ef19577b3ab0` for server access logs
+![image](https://github.com/Nazar910/hsa-5/blob/main/L24/screenshots/object-lock-retention.png?raw=true)
+* create new bucket `access-log-for-test-bucket-b67fb58a-a753-441d-94a3-ef19577b3ab0` for server access logs
 * configure Server access logs
+![image](https://github.com/Nazar910/hsa-5/blob/main/L24/screenshots/server-access-log-enabled.png?raw=true)
 
 # Results
 
