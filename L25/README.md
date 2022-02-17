@@ -26,3 +26,10 @@
 
 When the autoscale config is created we should see success message in the activity bar:
 ![image](https://github.com/Nazar910/hsa-5/blob/main/L25/images/success-message.png?raw=true)
+
+# Benchmark
+
+In order to load our instances the following command will be used:
+```
+    $ siege -c100 -t20m test-lb-1084918617.us-east-1.elb.amazonaws.com
+```
