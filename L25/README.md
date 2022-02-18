@@ -60,6 +60,6 @@ After we stop benchmarking, autoscaling will eventually terminate useless instan
 
 ![image](https://github.com/Nazar910/hsa-5/blob/main/L25/images/scale-down.png?raw=true)
 
-Also when we hitting our infrastructur with high amout of request when we have Step Scaling policy, we see appropriate results in Activity bar:
+Also when we hitting our infrastructure with high amout of request when we have Step Scaling policy, we see appropriate results in Activity bar:
 ![image](https://github.com/Nazar910/hsa-5/blob/main/L25/images/step-scaling-policy-in-action.png?raw=true)
 In the best case, we could scale much more instances on second threshold, but since we're in a Free Tier we're left with max 3 machines.
