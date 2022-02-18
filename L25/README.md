@@ -28,8 +28,7 @@
     * specify dynamic scaling policy baseed on AVG CPU usage:
 ![image](https://github.com/Nazar910/hsa-5/blob/main/L25/images/scaling-policy-based-on-cpu.png?raw=true)
     * specify dynamic step scaling policy based on Request amount:
-![image](https://github.com/Nazar910/hsa-5/blob/main/L25/images/step-scaling-policy.png?raw=true)
-    Note that for step scaling policy we should also create CloudWatch alarm:
+![image](https://github.com/Nazar910/hsa-5/blob/main/L25/images/step-scaling-policy.png?raw=true). Note that for step scaling policy we should also create CloudWatch alarm:
 ![image](https://github.com/Nazar910/hsa-5/blob/main/L25/images/cloudwatch-alarm.png?raw=true)
 
 When the autoscale config is created we should see success message in the activity bar:
